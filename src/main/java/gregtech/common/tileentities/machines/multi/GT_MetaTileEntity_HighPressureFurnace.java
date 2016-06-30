@@ -162,11 +162,11 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
     }
 
     public Block getCoilBlock() {
-        return GregTech_API.sBlockCasings1;
+        return GregTech_API.sBlockCasings4;
     }
 
     public byte getCoilMeta() {
-        return 12;
+        return 15;
     }
 
     public byte getCasingTextureIndex() {
@@ -174,7 +174,7 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
     }
 
     public byte getCoilTextureIndex() {
-        return 12;
+        return 63;
     }
 
     public byte getPipeCasingTextureIndex() {

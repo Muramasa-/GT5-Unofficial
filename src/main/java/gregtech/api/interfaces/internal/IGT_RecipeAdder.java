@@ -17,15 +17,14 @@ public interface IGT_RecipeAdder {
      *
      * @param aInput1                        = first Input (not null, and respects StackSize)
      * @param aInput2                        = second Input (not null, and respects StackSize)
-     * @param aOutput                        = Output of the Fusion (can be null, and respects StackSize)
+     * @param aOutput1                       = Output of the Fusion (can be null, and respects StackSize)
+     * @param aCoolantOutput                 = Coolant Output of the Fusion Reaction (can be null, and respects StackSize)
      * @param aFusionDurationInTicks         = How many ticks the Fusion lasts (must be > 0)
      * @param aFusionEnergyPerTick           = The EU generated per Tick (can even be negative!)
      * @param aEnergyNeededForStartingFusion = EU needed for heating the Reactor up (must be >= 0)
      * @return true if the Recipe got added, otherwise false.
      */
-    public boolean addFusionReactorRecipe(FluidStack aInput1, FluidStack aInput2, FluidStack aOutput1, int aFusionDurationInTicks, int aFusionEnergyPerTick, int aEnergyNeededForStartingFusion);
-
-    public boolean addFusionReactorRecipe(FluidStack aInput1, FluidStack aInput2, FluidStack aCoolantInput, FluidStack aOutput1, FluidStack aCoolandOutput, int aFusionDurationInTicks, int aFusionEnergyPerTick, int aEnergyNeededForStartingFusion);
+    public boolean addFusionReactorRecipe(FluidStack aInput1, FluidStack aInput2, FluidStack aOutput1, FluidStack aCoolantOutput, int aFusionDurationInTicks, int aFusionEnergyPerTick, int aEnergyNeededForStartingFusion);
 
     /**
      * Adds a Centrifuge Recipe
@@ -508,5 +507,15 @@ public interface IGT_RecipeAdder {
      */
     public boolean addSonictronSound(ItemStack aItemStack, String aSoundName);
 
-    public boolean addHPFurnaceRecipe(FluidStack aInput, FluidStack aOutput, int aDuration, int aEUt);
+    /**
+     * Adds High Pressure Furnace Recipe
+     *
+     * @param aInput1
+     * @param aInput2
+     * @param aOutput1
+     * @param aOutput2
+     * @param aDuration
+     * @param aEUt
+     */
+    public boolean addHPFurnaceRecipe(FluidStack aInput1, FluidStack aInput2, FluidStack aOutput1, FluidStack aOutput2, int aDuration, int aEUt);
 }
