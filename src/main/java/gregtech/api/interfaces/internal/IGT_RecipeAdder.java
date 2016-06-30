@@ -25,6 +25,8 @@ public interface IGT_RecipeAdder {
      */
     public boolean addFusionReactorRecipe(FluidStack aInput1, FluidStack aInput2, FluidStack aOutput1, int aFusionDurationInTicks, int aFusionEnergyPerTick, int aEnergyNeededForStartingFusion);
 
+    public boolean addFusionReactorRecipe(FluidStack aInput1, FluidStack aInput2, FluidStack aCoolantInput, FluidStack aOutput1, FluidStack aCoolandOutput, int aFusionDurationInTicks, int aFusionEnergyPerTick, int aEnergyNeededForStartingFusion);
+
     /**
      * Adds a Centrifuge Recipe
      *
@@ -505,4 +507,6 @@ public interface IGT_RecipeAdder {
      * @return true if the Sound got added, otherwise false.
      */
     public boolean addSonictronSound(ItemStack aItemStack, String aSoundName);
+
+    public boolean addHPFurnaceRecipe(FluidStack aInput, FluidStack aOutput, int aDuration, int aEUt);
 }

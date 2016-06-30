@@ -21,10 +21,15 @@ public class GT_RecipeAdder
 
     @Override
     public boolean addFusionReactorRecipe(FluidStack aInput1, FluidStack aInput2, FluidStack aOutput1, int aDuration, int aEUt, int aStartEU) {
+        return addFusionReactorRecipe(aInput1, aInput2, Materials.Argon.getPlasma(125), aOutput1, Materials.Argon.getPlasma(125), aDuration, aEUt, aStartEU);
+    }
+
+    @Override
+    public boolean addFusionReactorRecipe(FluidStack aInput1, FluidStack aInput2, FluidStack aCoolantInput, FluidStack aOutput1, FluidStack aCoolantOutput, int aDuration, int aEUt, int aStartEU) {
         if (aInput1 == null || aInput2 == null || aOutput1 == null || aDuration < 1 || aEUt < 1 || aStartEU < 1) {
             return false;
         }
-        GT_Recipe.GT_Recipe_Map.sFusionRecipes.addRecipe(null, new FluidStack[]{aInput1, aInput2}, new FluidStack[]{aOutput1}, aDuration, aEUt, aStartEU);
+        GT_Recipe.GT_Recipe_Map.sFusionRecipes.addRecipe(null, new FluidStack[]{aInput1, aInput2, aCoolantInput}, new FluidStack[]{aOutput1, aCoolantOutput}, aDuration, aEUt, aStartEU);
         return true;
     }
 
@@ -792,7 +797,15 @@ public class GT_RecipeAdder
         return true;
 	}
 
-
-
-
+    @Override
+    public boolean addHPFurnaceRecipe(FluidStack aInput, FluidStack aOutput, int aDuration, int aEUt) {
+        if (aInput == null || aOutput == null) {
+            return false;
+        }
+        if ((aDuration = GregTech_API.sRecipeFile.get("highpressurefurnace", aInput.getUnlocalizedName(), aDuration)) <= 0) {
+            return false;
+        }
+        GT_Recipe.GT_Recipe_Map.sHighPressureFurnaceRecipes.addRecipe(false, null, null, null, new FluidStack[]{aInput}, new FluidStack[]{aOutput}, Math.max(1, aDuration), Math.max(1, aEUt), 0);
+        return false;
+    }
 }
