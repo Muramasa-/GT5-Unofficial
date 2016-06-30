@@ -111,9 +111,9 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
                         if (aBaseMetaTileEntity.getMetaIDOffset(xDir + i, k, zDir + j) != getPipeMeta())
                             return false;
                     }
-                    if(!(addPlasmaOutput(aBaseMetaTileEntity.getIGregTechTileEntityOffset(xDir + i, 3, zDir + j), getCasingTextureIndex())))
+                    if(!(addPlasmaOutput(aBaseMetaTileEntity.getIGregTechTileEntityOffset(xDir + i, 3, zDir + j), getPipeCasingTextureIndex())))
                         return false;
-                    if(!(addHydrogenInput(aBaseMetaTileEntity.getIGregTechTileEntityOffset(xDir + i, 0, zDir + j), getCasingTextureIndex())))
+                    if(!(addHydrogenInput(aBaseMetaTileEntity.getIGregTechTileEntityOffset(xDir + i, 0, zDir + j), getPipeCasingTextureIndex())))
                         return false;
                 }
             }
@@ -154,11 +154,11 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
     }
 
     public Block getPipeBlock() {
-        return GregTech_API.sBlockCasings2;
+        return GregTech_API.sBlockCasings4;
     }
 
     public byte getPipeMeta() {
-        return 15;
+        return 14;
     }
 
     public Block getCoilBlock() {
@@ -175,6 +175,10 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
 
     public byte getCoilTextureIndex() {
         return 12;
+    }
+
+    public byte getPipeCasingTextureIndex() {
+        return 62;
     }
 
     @Override
