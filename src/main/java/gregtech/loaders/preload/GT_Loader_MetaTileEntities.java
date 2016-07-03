@@ -1213,15 +1213,11 @@ public class GT_Loader_MetaTileEntities
         ItemList.Machine_Multi_DieselEngine.set(new GT_MetaTileEntity_DieselEngine(1171, "multimachine.dieselengine", "Diesel Engine").getStackForm(1L));
         GT_ModHandler.addCraftingRecipe(ItemList.Machine_Multi_DieselEngine.get(1L, new Object[0]), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PCP", "EME", "GWG", Character.valueOf('M'), ItemList.Hull_EV, Character.valueOf('P'), ItemList.Electric_Piston_EV, Character.valueOf('E'), ItemList.Electric_Motor_EV, Character.valueOf('C'), OrePrefixes.circuit.get(Materials.Ultimate), Character.valueOf('W'), OrePrefixes.cableGt01.get(Materials.TungstenSteel), Character.valueOf('G'), OrePrefixes.gearGt.get(Materials.Titanium)});
         GT_ModHandler.addCraftingRecipe(ItemList.Casing_EngineIntake.get(1L, new Object[0]), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"PhP", "RFR", "PwP", Character.valueOf('R'), OrePrefixes.pipeMedium.get(Materials.Titanium), Character.valueOf('F'), ItemList.Casing_StableTitanium, Character.valueOf('P'), OrePrefixes.rotor.get(Materials.Titanium)});
-<<<<<<< HEAD
 
         ItemList.Machine_Multi_HPFurnace.set(new GT_MetaTileEntity_HighPressureFurnace(1172, "multimachine.hpfurnace", "High Pressure Furnace").getStackForm(1L));
         GT_ModHandler.addCraftingRecipe(ItemList.Casing_Pipe_Plasma.get(1L, new Object[0]), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"TPT", "PFP", "TPT", Character.valueOf('P'), OrePrefixes.pipeMedium.get(Materials.Superconductor), Character.valueOf('F'), OrePrefixes.frameGt.get(Materials.TungstenSteel), Character.valueOf('T'), OrePrefixes.plate.get(Materials.TungstenSteel)});
         GT_ModHandler.addCraftingRecipe(ItemList.Casing_Coiled_Tubing_Copper.get(1L, new Object[0]), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"CCC", "CwC", "CCC", Character.valueOf('C'), OrePrefixes.pipeSmall.get(Materials.Copper)});
     }
-=======
-}
->>>>>>> refs/remotes/Blood-Asp/experimental
 
     private static void run4() {
         for (int i = 0; i < GregTech_API.sGeneratedMaterials.length; i++) {
