@@ -63,6 +63,8 @@ public abstract class GT_MetaTileEntity_BasicTank extends GT_MetaTileEntity_Tier
 
     public abstract boolean displaysStackSize();
 
+    public abstract boolean canStorePlasma();
+
     public int getInputSlot() {
         return 0;
     }
@@ -176,6 +178,9 @@ public abstract class GT_MetaTileEntity_BasicTank extends GT_MetaTileEntity_Tier
     @Override
     public int fill(FluidStack aFluid, boolean doFill) {
         if (aFluid == null || aFluid.getFluid().getID() <= 0 || aFluid.amount <= 0 || !canTankBeFilled() || !isFluidInputAllowed(aFluid))
+            return 0;
+
+        if (!canStorePlasma() && aFluid.getUnlocalizedName().contains("plasma"))
             return 0;
 
         if (getFillableStack() == null || getFillableStack().getFluid().getID() <= 0) {

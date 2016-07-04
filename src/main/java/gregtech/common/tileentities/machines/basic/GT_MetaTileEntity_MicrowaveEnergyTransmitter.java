@@ -324,6 +324,11 @@ public class GT_MetaTileEntity_MicrowaveEnergyTransmitter extends GT_MetaTileEnt
     }
 
     @Override
+    public boolean canStorePlasma() {
+        return false;
+    }
+
+    @Override
     public ITexture[][][] getTextureSet(ITexture[] aTextures) {
         return null;
     }

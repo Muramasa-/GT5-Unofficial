@@ -152,6 +152,9 @@ public class GT_MetaTileEntity_BasicHull extends GT_MetaTileEntity_BasicTank {
     }
 
     @Override
+    public boolean canStorePlasma() { return false; }
+
+    @Override
     public int getCapacity() {
         return (mTier + 1) * 1000;
     }

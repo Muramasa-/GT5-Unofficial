@@ -305,6 +305,9 @@ public abstract class GT_MetaTileEntity_BasicMachine extends GT_MetaTileEntity_B
     }
 
     @Override
+    public boolean canStorePlasma() { return false; }
+
+    @Override
     public FluidStack getDisplayedFluid() {
         return displaysOutputFluid() ? getDrainableStack() : null;
     }
