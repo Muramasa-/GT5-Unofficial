@@ -94,4 +94,7 @@ public class GT_MetaTileEntity_PlasmaGenerator
 	public int getPollution() {
 		return 0;
 	}
+
+    @Override
+    public boolean canStorePlasma() { return true; }
 }

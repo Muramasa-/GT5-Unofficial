@@ -6,9 +6,11 @@ import gregtech.api.gui.GT_GUIContainer_BasicTank;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.util.GT_Utility;
+import gregtech.common.tileentities.automation.GT_MetaTileEntity_Filter;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
 
 /**
@@ -132,7 +134,7 @@ public abstract class GT_MetaTileEntity_BasicTank extends GT_MetaTileEntity_Tier
                 }
             }
 
-            if (doesEmptyContainers()) {
+            if (doesEmptyContainers() && !(!canStorePlasma() && getDrainableStack().getUnlocalizedName().contains("plasma"))) {
                 FluidStack tFluid = GT_Utility.getFluidForFilledItem(mInventory[getInputSlot()], true);
                 if (tFluid != null && isFluidInputAllowed(tFluid)) {
                     if (getFillableStack() == null) {
@@ -153,7 +155,7 @@ public abstract class GT_MetaTileEntity_BasicTank extends GT_MetaTileEntity_Tier
                 }
             }
 
-            if (doesFillContainers()) {
+            if (doesFillContainers() && !(!canStorePlasma() && getDrainableStack().getUnlocalizedName().contains("plasma"))) {
                 ItemStack tOutput = GT_Utility.fillFluidContainer(getDrainableStack(), mInventory[getInputSlot()], false, true);
                 if (tOutput != null && aBaseMetaTileEntity.addStackToSlot(getOutputSlot(), tOutput, 1)) {
                     FluidStack tFluid = GT_Utility.getFluidForFilledItem(tOutput, true);
@@ -223,6 +225,9 @@ public abstract class GT_MetaTileEntity_BasicTank extends GT_MetaTileEntity_Tier
             getBaseMetaTileEntity().markDirty();
             return null;
         }
+
+        //if (getDrainableStack().getUnlocalizedName().contains("plasma"))
+            //return null;
 
         int used = maxDrain;
         if (getDrainableStack().amount < used)
