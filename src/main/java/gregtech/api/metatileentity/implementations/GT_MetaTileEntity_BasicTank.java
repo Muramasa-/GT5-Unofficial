@@ -6,11 +6,9 @@ import gregtech.api.gui.GT_GUIContainer_BasicTank;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.util.GT_Utility;
-import gregtech.common.tileentities.automation.GT_MetaTileEntity_Filter;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.fluids.FluidStack;
 
 /**
@@ -65,7 +63,9 @@ public abstract class GT_MetaTileEntity_BasicTank extends GT_MetaTileEntity_Tier
 
     public abstract boolean displaysStackSize();
 
-    public abstract boolean canStorePlasma();
+    public boolean canStorePlasma() {
+        return false;
+    }
 
     public int getInputSlot() {
         return 0;

@@ -1,30 +1,22 @@
 package gregtech.common.tileentities.machines.multi;
 
 import gregtech.api.GregTech_API;
-import gregtech.api.enums.Materials;
 import gregtech.api.enums.Textures;
 import gregtech.api.gui.GT_GUIContainer_MultiMachine;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
-import gregtech.api.items.GT_MetaGenerated_Tool;
 import gregtech.api.metatileentity.implementations.*;
 import gregtech.api.objects.GT_RenderedTexture;
-import gregtech.api.util.GT_Recipe;
-import gregtech.api.util.GT_Utility;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
-import net.minecraftforge.fluids.FluidStack;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_MultiBlockBase {
 
-    public GT_MetaTileEntity_Hatch_Output mOutputPlasmaHatch;
+    public GT_MetaTileEntity_PlasmaHatch_Output mOutputPlasmaHatch;
     public GT_MetaTileEntity_Hatch_Input mInputHydrogenHatch;
 
     public GT_MetaTileEntity_HighPressureFurnace(int aID, String aName, String aNameRegional) {
@@ -125,9 +117,9 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
         if (aTileEntity == null) return false;
         IMetaTileEntity aMetaTileEntity = aTileEntity.getMetaTileEntity();
         if (aMetaTileEntity == null) return false;
-        if (aMetaTileEntity instanceof GT_MetaTileEntity_Hatch_Output) {
-            ((GT_MetaTileEntity_Hatch) aMetaTileEntity).mMachineBlock = (byte) aBaseCasingIndex;
-            mOutputPlasmaHatch = (GT_MetaTileEntity_Hatch_Output) aMetaTileEntity;
+        if (aMetaTileEntity instanceof GT_MetaTileEntity_PlasmaHatch_Output) {
+            ((GT_MetaTileEntity_PlasmaHatch_Output) aMetaTileEntity).mMachineBlock = (byte) aBaseCasingIndex;
+            mOutputPlasmaHatch = (GT_MetaTileEntity_PlasmaHatch_Output) aMetaTileEntity;
             return true;
         }
         return false;

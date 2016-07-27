@@ -86,7 +86,4 @@ public abstract class GT_MetaTileEntity_Hatch extends GT_MetaTileEntity_BasicTan
     public boolean displaysStackSize() {
         return false;
     }
-
-    @Override
-    public boolean canStorePlasma() { return false; }
 }

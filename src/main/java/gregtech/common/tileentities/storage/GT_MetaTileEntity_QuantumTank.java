@@ -97,9 +97,6 @@ public class GT_MetaTileEntity_QuantumTank
     }
 
     @Override
-    public boolean canStorePlasma() { return false; }
-
-    @Override
     public String[] getInfoData() {
 
         if (mFluid == null) {
