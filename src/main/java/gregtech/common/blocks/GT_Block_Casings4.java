@@ -82,6 +82,10 @@ public class GT_Block_Casings4
                 return Textures.BlockIcons.MACHINE_CASING_ROBUST_TUNGSTENSTEEL.getIcon();
             case 13:
                 return Textures.BlockIcons.MACHINE_CASING_ENGINE_INTAKE.getIcon();
+            case 14:
+                return Textures.BlockIcons.MACHINE_CASING_ROBUST_TUNGSTENSTEEL.getIcon();
+            case 15:
+                return Textures.BlockIcons.MACHINE_CASING_ROBUST_TUNGSTENSTEEL.getIcon();
         }
         return Textures.BlockIcons.MACHINE_CASING_SOLID_STEEL.getIcon();
     }

@@ -155,7 +155,7 @@ public abstract class GT_MetaTileEntity_BasicTank extends GT_MetaTileEntity_Tier
                 }
             }
 
-            if (doesFillContainers()) {
+            if (doesFillContainers() && !(!canStorePlasma() && getDrainableStack().getUnlocalizedName().contains("plasma"))) {
                 ItemStack tOutput = GT_Utility.fillFluidContainer(getDrainableStack(), mInventory[getInputSlot()], false, true);
                 if (tOutput != null && aBaseMetaTileEntity.addStackToSlot(getOutputSlot(), tOutput, 1)) {
                     FluidStack tFluid = GT_Utility.getFluidForFilledItem(tOutput, true);
@@ -182,8 +182,8 @@ public abstract class GT_MetaTileEntity_BasicTank extends GT_MetaTileEntity_Tier
         if (aFluid == null || aFluid.getFluid().getID() <= 0 || aFluid.amount <= 0 || !canTankBeFilled() || !isFluidInputAllowed(aFluid))
             return 0;
 
-        /*if (!canStorePlasma() && aFluid.getUnlocalizedName().contains("plasma"))
-            return 0;*/
+        if (!canStorePlasma() && aFluid.getUnlocalizedName().contains("plasma"))
+            return 0;
 
         if (getFillableStack() == null || getFillableStack().getFluid().getID() <= 0) {
             if (aFluid.amount <= getCapacity()) {
@@ -225,9 +225,6 @@ public abstract class GT_MetaTileEntity_BasicTank extends GT_MetaTileEntity_Tier
             getBaseMetaTileEntity().markDirty();
             return null;
         }
-
-        //if (getDrainableStack().getUnlocalizedName().contains("plasma"))
-            //return null;
 
         int used = maxDrain;
         if (getDrainableStack().amount < used)
