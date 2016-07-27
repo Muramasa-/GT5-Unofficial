@@ -18,6 +18,8 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
 
     public GT_MetaTileEntity_PlasmaHatch_Output mOutputPlasmaHatch;
     public GT_MetaTileEntity_Hatch_Input mInputHydrogenHatch;
+    public GT_MetaTileEntity_Hatch_Input mInputGas;
+    public GT_MetaTileEntity_Hatch_Output mOutputGas;
 
     public GT_MetaTileEntity_HighPressureFurnace(int aID, String aName, String aNameRegional) {
         super(aID, aName, aNameRegional);
@@ -29,14 +31,11 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
     public String[] getDescription() {
         return new String[]{
                 "Controller Block for the High Pressure Furnace",
-                "Size(WxHxD): 3x4x3, Controller (front centered)",
-                "3x3x4 of Robust Tungstensteel Casings (hollow, Min 24!)",
+                "Size(WxHxD): 3x4x3, Controller (Centered, bottom layer)",
                 "2x Titanium Gear Box Casing inside the Hollow Casing",
                 "1x Input Hatch (one of the Casings)",
                 "1x Maintenance Hatch (one of the Casings)",
-                "1x Muffler Hatch (top middle back)",
-                "1x Dynamo Hatch (back centered)",
-                "Engine Intake Casings not obstructed (only air blocks)"};
+                "1x Dynamo Hatch (back centered)"};
     }
 
     public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aFacing, byte aColorIndex, boolean aActive, boolean aRedstone) {
@@ -79,7 +78,7 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
                                 return false;
                             tCasingAmount++;
                         } else if (k == 1 || k == 2) { //Middle two layers
-                            if (!addInputToMachineList(tTileEntity, getCoilTextureIndex()) && !addOutputToMachineList(tTileEntity, getCoilTextureIndex())) {
+                            if (!addGasInput(tTileEntity, getCoilTextureIndex()) && !addGasOutput(tTileEntity, getCoilTextureIndex())) {
                                 if (aBaseMetaTileEntity.getBlockOffset(xDir + i, k, zDir + j) != getCoilBlock())
                                     return false;
                                 if (aBaseMetaTileEntity.getMetaIDOffset(xDir + i, k, zDir + j) != getCoilMeta())
@@ -137,6 +136,30 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
         return false;
     }
 
+    public boolean addGasInput(IGregTechTileEntity aTileEntity, int aBaseCasingIndex) {
+        if (aTileEntity == null) return false;
+        IMetaTileEntity aMetaTileEntity = aTileEntity.getMetaTileEntity();
+        if (aMetaTileEntity == null) return false;
+        if (aMetaTileEntity instanceof GT_MetaTileEntity_Hatch_Input) {
+            ((GT_MetaTileEntity_Hatch) aMetaTileEntity).mMachineBlock = (byte) aBaseCasingIndex;
+            mInputGas = (GT_MetaTileEntity_Hatch_Input) aMetaTileEntity;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addGasOutput(IGregTechTileEntity aTileEntity, int aBaseCasingIndex) {
+        if (aTileEntity == null) return false;
+        IMetaTileEntity aMetaTileEntity = aTileEntity.getMetaTileEntity();
+        if (aMetaTileEntity == null) return false;
+        if (aMetaTileEntity instanceof GT_MetaTileEntity_Hatch_Output) {
+            ((GT_MetaTileEntity_Hatch_Output) aMetaTileEntity).mMachineBlock = (byte) aBaseCasingIndex;
+            mOutputGas = (GT_MetaTileEntity_Hatch_Output) aMetaTileEntity;
+            return true;
+        }
+        return false;
+    }
+
     public Block getCasingBlock() {
         return GregTech_API.sBlockCasings4;
     }
@@ -146,31 +169,31 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
     }
 
     public Block getPipeBlock() {
-        return GregTech_API.sBlockCasings4;
+        return GregTech_API.sBlockCasings6;
     }
 
     public byte getPipeMeta() {
-        return 14;
+        return 0;
     }
 
     public Block getCoilBlock() {
-        return GregTech_API.sBlockCasings4;
+        return GregTech_API.sBlockCasings6;
     }
 
     public byte getCoilMeta() {
-        return 15;
+        return 1;
     }
 
     public byte getCasingTextureIndex() {
         return 60;
     }
 
-    public byte getCoilTextureIndex() {
-        return 63;
+    public byte getPipeCasingTextureIndex() {
+        return 80;
     }
 
-    public byte getPipeCasingTextureIndex() {
-        return 62;
+    public byte getCoilTextureIndex() {
+        return 81;
     }
 
     @Override
