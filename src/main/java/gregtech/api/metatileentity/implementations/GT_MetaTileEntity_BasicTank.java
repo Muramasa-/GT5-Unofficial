@@ -134,9 +134,9 @@ public abstract class GT_MetaTileEntity_BasicTank extends GT_MetaTileEntity_Tier
                 }
             }
 
-            if (doesEmptyContainers() && !(!canStorePlasma() && getDrainableStack().getUnlocalizedName().contains("plasma"))) {
+            if (doesEmptyContainers()) {
                 FluidStack tFluid = GT_Utility.getFluidForFilledItem(mInventory[getInputSlot()], true);
-                if (tFluid != null && isFluidInputAllowed(tFluid)) {
+                if (tFluid != null && isFluidInputAllowed(tFluid) && !(!canStorePlasma() && tFluid.getUnlocalizedName().contains("plasma"))) {
                     if (getFillableStack() == null) {
                         if (isFluidInputAllowed(tFluid) && tFluid.amount <= getCapacity()) {
                             if (aBaseMetaTileEntity.addStackToSlot(getOutputSlot(), GT_Utility.getContainerItem(mInventory[getInputSlot()], true), 1)) {
@@ -155,7 +155,7 @@ public abstract class GT_MetaTileEntity_BasicTank extends GT_MetaTileEntity_Tier
                 }
             }
 
-            if (doesFillContainers() && !(!canStorePlasma() && getDrainableStack().getUnlocalizedName().contains("plasma"))) {
+            if (doesFillContainers()) {
                 ItemStack tOutput = GT_Utility.fillFluidContainer(getDrainableStack(), mInventory[getInputSlot()], false, true);
                 if (tOutput != null && aBaseMetaTileEntity.addStackToSlot(getOutputSlot(), tOutput, 1)) {
                     FluidStack tFluid = GT_Utility.getFluidForFilledItem(tOutput, true);
@@ -182,8 +182,8 @@ public abstract class GT_MetaTileEntity_BasicTank extends GT_MetaTileEntity_Tier
         if (aFluid == null || aFluid.getFluid().getID() <= 0 || aFluid.amount <= 0 || !canTankBeFilled() || !isFluidInputAllowed(aFluid))
             return 0;
 
-        if (!canStorePlasma() && aFluid.getUnlocalizedName().contains("plasma"))
-            return 0;
+        /*if (!canStorePlasma() && aFluid.getUnlocalizedName().contains("plasma"))
+            return 0;*/
 
         if (getFillableStack() == null || getFillableStack().getFluid().getID() <= 0) {
             if (aFluid.amount <= getCapacity()) {

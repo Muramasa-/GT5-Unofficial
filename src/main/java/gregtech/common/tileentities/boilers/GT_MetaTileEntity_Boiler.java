@@ -118,8 +118,6 @@ public abstract class GT_MetaTileEntity_Boiler
         return false;
     }
 
-    public boolean canStorePlasma() { return false; }
-
     public boolean isFluidInputAllowed(FluidStack aFluid) {
         return GT_ModHandler.isWater(aFluid);
     }

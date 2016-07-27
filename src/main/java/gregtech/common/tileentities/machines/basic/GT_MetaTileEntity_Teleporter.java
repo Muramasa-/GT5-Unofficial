@@ -428,9 +428,6 @@ public class GT_MetaTileEntity_Teleporter extends GT_MetaTileEntity_BasicTank {
     }
 
     @Override
-    public boolean canStorePlasma() { return false; }
-
-    @Override
     public ITexture[][][] getTextureSet(ITexture[] aTextures) {
         return null;
     }

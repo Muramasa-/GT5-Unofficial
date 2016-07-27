@@ -8,11 +8,15 @@ import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.metatileentity.implementations.*;
 import gregtech.api.objects.GT_RenderedTexture;
+import gregtech.api.util.GT_Recipe;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraftforge.fluids.FluidStack;
+
+import java.util.Collection;
 
 public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_MultiBlockBase {
 
@@ -31,11 +35,15 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
     public String[] getDescription() {
         return new String[]{
                 "Controller Block for the High Pressure Furnace",
-                "Size(WxHxD): 3x4x3, Controller (Centered, bottom layer)",
-                "2x Titanium Gear Box Casing inside the Hollow Casing",
-                "1x Input Hatch (one of the Casings)",
+                "Size(WxHxD): 3x4x3, Controller (centered, bottom layer)",
+                "2x Ceramic Pipe Casing inside the Casing",
+                "1x Input Hatch (one of the coils)",
+                "1x Output Hatch (one of the coils)",
+                "1x Input Hatch (centered, bottom layer)",
+                "1x Plasma Output Hatch (centered, top layer)",
                 "1x Maintenance Hatch (one of the Casings)",
-                "1x Dynamo Hatch (back centered)"};
+                "1x Dynamo Hatch (back centered)",
+                "Robust Tungstensteel Casings for the rest (13 at least!)"};
     }
 
     public ITexture[] getTexture(IGregTechTileEntity aBaseMetaTileEntity, byte aSide, byte aFacing, byte aColorIndex, boolean aActive, boolean aRedstone) {
@@ -56,6 +64,24 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
 
     @Override
     public boolean checkRecipe(ItemStack aStack) {
+        Collection<GT_Recipe> tRecipeList = GT_Recipe.GT_Recipe_Map.sHPFurnaceRecipes.mRecipeList;
+        if(mInputHydrogenHatch.mFluid != null && mInputGas.mFluid != null && tRecipeList != null) {
+            for(GT_Recipe aRecipe : tRecipeList) {
+                FluidStack aRecipeInput = aRecipe.getRepresentativeFluidInput(0);
+                FluidStack aRecipeGas = aRecipe.getRepresentativeFluidInput(1);
+                if((aRecipeInput != null || aRecipeGas != null) && mInputHydrogenHatch.mFluid.isFluidEqual(aRecipeInput) && mInputGas.mFluid.isFluidEqual(aRecipeGas)) {
+                    mInputHydrogenHatch.mFluid.amount--;
+                    mInputGas.mFluid.amount--;
+                    mOutputPlasmaHatch.fill(aRecipe.getFluidOutput(1), true);
+                    mOutputGas.fill(aRecipe.getFluidOutput(0), true);
+                    this.mEUt = 0;
+                    this.mProgresstime = 1;
+                    this.mMaxProgresstime = 1;
+                    this.mEfficiencyIncrease = 10000;
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -232,7 +258,7 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
 
     @Override
     public boolean explodesOnComponentBreak(ItemStack aStack) {
-        return true;
+        return false;
     }
 
     @Override

@@ -172,9 +172,6 @@ public abstract class GT_MetaTileEntity_BasicGenerator extends GT_MetaTileEntity
     }
 
     @Override
-    public boolean canStorePlasma() { return false; }
-
-    @Override
     public boolean isFluidInputAllowed(FluidStack aFluid) {
         return getFuelValue(aFluid) > 0;
     }

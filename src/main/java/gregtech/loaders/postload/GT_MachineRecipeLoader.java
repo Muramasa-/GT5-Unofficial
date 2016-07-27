@@ -896,13 +896,12 @@ if(Loader.isModLoaded("Railcraft")){
         GT_Values.RA.addFusionReactorRecipe(Materials.Uranium.getMolten(16), Materials.Helium.getGas(16), Materials.Plutonium.getMolten(16), Materials.Argon.getPlasma(125L), 128, 49152, 480000000); //
         GT_Values.RA.addFusionReactorRecipe(Materials.Vanadium.getMolten(16), Materials.Hydrogen.getGas(125), Materials.Chrome.getMolten(16), Materials.Argon.getPlasma(125L), 64, 24576, 140000000); //
 
-        //Creates unexpected results?!
-        for(Materials aMat : Materials.VALUES) {
-            if(aMat.getPlasma(1L) != null) {
-                FluidStack input = aMat.getFluid(1L) == null ? aMat.getGas(1L) : aMat.getFluid(1L);
-                GT_Values.RA.addHPFurnaceRecipe(input, Materials.Nitrogen.getGas(1L), aMat.getPlasma(1L), Materials.Nitrogen.getGas(1L), 20, 512);
-            }
-        }
+        GT_Values.RA.addHPFurnaceRecipe(Materials.Helium.getGas(1L), Materials.Nitrogen.getGas(1L), Materials.Nitrogen.getGas(1L), Materials.Helium.getPlasma(1L), 20, 512);
+        GT_Values.RA.addHPFurnaceRecipe(Materials.Oxygen.getGas(1L), Materials.Nitrogen.getGas(1L), Materials.Nitrogen.getGas(1L), Materials.Oxygen.getPlasma(1L), 20, 512);
+        GT_Values.RA.addHPFurnaceRecipe(Materials.Sulfur.getMolten(1L), Materials.Nitrogen.getGas(1L), Materials.Nitrogen.getGas(1L), Materials.Sulfur.getPlasma(1L), 20, 512);
+        GT_Values.RA.addHPFurnaceRecipe(Materials.Nitrogen.getGas(1L), Materials.Nitrogen.getGas(1L), Materials.Nitrogen.getGas(1L), Materials.Nitrogen.getPlasma(1L), 20, 512);
+        GT_Values.RA.addHPFurnaceRecipe(Materials.Iron.getMolten(1L), Materials.Nitrogen.getGas(1L), Materials.Nitrogen.getGas(1L), Materials.Iron.getPlasma(1L), 20, 512);
+        GT_Values.RA.addHPFurnaceRecipe(Materials.Nickel.getMolten(1L), Materials.Nitrogen.getGas(1L), Materials.Nitrogen.getGas(1L), Materials.Nickel.getPlasma(1L), 20, 512);
 
         GT_ModHandler.removeRecipeByOutput(ItemList.IC2_Fertilizer.get(1L, new Object[0]));
         GT_Values.RA.addImplosionRecipe(ItemList.IC2_Compressed_Coal_Chunk.get(1L, new Object[0]), 8, ItemList.IC2_Industrial_Diamond.get(1L, new Object[0]), GT_OreDictUnificator.get(OrePrefixes.dustTiny, Materials.DarkAsh, 4L));

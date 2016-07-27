@@ -1234,6 +1234,8 @@ public class GT_Loader_MetaTileEntities
         ItemList.Machine_Multi_HPFurnace.set(new GT_MetaTileEntity_HighPressureFurnace(1172, "multimachine.hpfurnace", "High Pressure Furnace").getStackForm(1L));
         GT_ModHandler.addCraftingRecipe(ItemList.Casing_Pipe_Ceramic.get(1L, new Object[0]), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"TPT", "PFP", "TPT", Character.valueOf('P'), OrePrefixes.pipeMedium.get(Materials.Superconductor), Character.valueOf('F'), OrePrefixes.frameGt.get(Materials.TungstenSteel), Character.valueOf('T'), OrePrefixes.plate.get(Materials.TungstenSteel)});
         GT_ModHandler.addCraftingRecipe(ItemList.Casing_Coiled_Tubing_Copper.get(1L, new Object[0]), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"CCC", "CwC", "CCC", Character.valueOf('C'), OrePrefixes.pipeSmall.get(Materials.Copper)});
+
+        ItemList.Machine_Multi_ParticleAccelerator.set(new GT_MetaTileEntity_ParticleAccelerator(1173, "multimachine.particleaccelerator", "Particle Accelerator").getStackForm(1L));
     }
 
     private static void run4() {
