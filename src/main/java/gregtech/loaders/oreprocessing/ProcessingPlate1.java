@@ -25,7 +25,7 @@ public class ProcessingPlate1 implements gregtech.api.interfaces.IOreRecipeRegis
         GT_Values.RA.addBoxingRecipe(GT_Utility.copyAmount(16L, new Object[]{aStack}), ItemList.Crate_Empty.get(1L, new Object[0]), GT_OreDictUnificator.get(OrePrefixes.crateGtPlate, aMaterial, 1L), 100, 8);
         GT_Values.RA.addUnboxingRecipe(GT_OreDictUnificator.get(OrePrefixes.crateGtPlate, aMaterial, 1L), GT_OreDictUnificator.get(OrePrefixes.plate, aMaterial, 16L), ItemList.Crate_Empty.get(1L, new Object[0]), 800, 1);
 
-        if (aMaterial.mStandardMoltenFluid != null) {
+        if (aMaterial.mStandardMoltenFluid != null && (aMaterial.mMeltingPoint <= Materials.Steel.mMeltingPoint)) {
             GT_Values.RA.addFluidSolidifierRecipe(ItemList.Shape_Mold_Plate.get(0L, new Object[0]), aMaterial.getMolten(144L), GT_OreDictUnificator.get(OrePrefixes.plate, aMaterial, 1L), 32, 8);
         }
         switch (aMaterial) {

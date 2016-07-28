@@ -15,7 +15,7 @@ public class ProcessingGear implements gregtech.api.interfaces.IOreRecipeRegistr
 
     public void registerOre(OrePrefixes aPrefix, Materials aMaterial, String aOreDictName, String aModName, ItemStack aStack) {
         GT_ModHandler.removeRecipeByOutput(aStack);
-        if (aMaterial.mStandardMoltenFluid != null)
+        if (aMaterial.mStandardMoltenFluid != null && (aMaterial.mMeltingPoint <= Materials.Steel.mMeltingPoint))
             GT_Values.RA.addFluidSolidifierRecipe(ItemList.Shape_Mold_Gear.get(0L, new Object[0]), aMaterial.getMolten(576L), GT_OreDictUnificator.get(aPrefix, aMaterial, 1L), 128, 8);
     }
 }
