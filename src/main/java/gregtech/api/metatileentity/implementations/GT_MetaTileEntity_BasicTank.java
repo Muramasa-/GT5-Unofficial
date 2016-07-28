@@ -154,7 +154,6 @@ public abstract class GT_MetaTileEntity_BasicTank extends GT_MetaTileEntity_Tier
                     }
                 }
             }
-
             if (doesFillContainers() && !(!canStorePlasma() && getDrainableStack().getUnlocalizedName().contains("plasma"))) {
                 ItemStack tOutput = GT_Utility.fillFluidContainer(getDrainableStack(), mInventory[getInputSlot()], false, true);
                 if (tOutput != null && aBaseMetaTileEntity.addStackToSlot(getOutputSlot(), tOutput, 1)) {

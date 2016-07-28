@@ -233,10 +233,10 @@ public class GT_Loader_MetaTileEntities
         ItemList.Hatch_Input_ZPM.set(new GT_MetaTileEntity_Hatch_Input(57, "hatch.input.tier.07", "Input Hatch (ZPM)", 7).getStackForm(1L));
         ItemList.Hatch_Input_UV.set(new GT_MetaTileEntity_Hatch_Input(58, "hatch.input.tier.08", "Input Hatch (UV)", 8).getStackForm(1L));
         ItemList.Hatch_Input_MAX.set(new GT_MetaTileEntity_Hatch_Input(59, "hatch.input.tier.09", "Input Hatch (MAX)", 9).getStackForm(1L));
-        ItemList.PlasmaHatch_Input_LuV.set(new GT_MetaTileEntity_PlasmaHatch_Output(130, "plasmahatch.output.tier.06", "Plasma Output Hatch (LuV)", 6).getStackForm(1L));
-        ItemList.PlasmaHatch_Input_ZPM.set(new GT_MetaTileEntity_PlasmaHatch_Output(131, "plasmahatch.output.tier.07", "Plasma Output Hatch (ZPM)", 7).getStackForm(1L));
-        ItemList.PlasmaHatch_Input_UV.set(new GT_MetaTileEntity_PlasmaHatch_Output(132, "plasmahatch.output.tier.08", "Plasma Output Hatch (UV)", 8).getStackForm(1L));
-        ItemList.PlasmaHatch_Input_MAX.set(new GT_MetaTileEntity_PlasmaHatch_Output(133, "plasmahatch.output.tier.09", "Plasma Output Hatch (MAX)", 9).getStackForm(1L));
+        ItemList.PlasmaHatch_Input_LuV.set(new GT_MetaTileEntity_PlasmaHatch_Input(130, "plasmahatch.output.tier.06", "Plasma Output Hatch (LuV)", 6).getStackForm(1L));
+        ItemList.PlasmaHatch_Input_ZPM.set(new GT_MetaTileEntity_PlasmaHatch_Input(131, "plasmahatch.output.tier.07", "Plasma Output Hatch (ZPM)", 7).getStackForm(1L));
+        ItemList.PlasmaHatch_Input_UV.set(new GT_MetaTileEntity_PlasmaHatch_Input(132, "plasmahatch.output.tier.08", "Plasma Output Hatch (UV)", 8).getStackForm(1L));
+        ItemList.PlasmaHatch_Input_MAX.set(new GT_MetaTileEntity_PlasmaHatch_Input(133, "plasmahatch.output.tier.09", "Plasma Output Hatch (MAX)", 9).getStackForm(1L));
 
         GT_ModHandler.addCraftingRecipe(ItemList.Hatch_Input_ULV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"G", "M", Character.valueOf('M'), ItemList.Hull_ULV, Character.valueOf('G'), new ItemStack(Blocks.glass, 1)});
         GT_ModHandler.addCraftingRecipe(ItemList.Hatch_Input_LV.get(1L, new Object[0]), GT_ModHandler.RecipeBits.DISMANTLEABLE | GT_ModHandler.RecipeBits.NOT_REMOVABLE | GT_ModHandler.RecipeBits.REVERSIBLE | GT_ModHandler.RecipeBits.BUFFERED, new Object[]{"G", "M", Character.valueOf('M'), ItemList.Hull_LV, Character.valueOf('G'), new ItemStack(Blocks.glass, 1)});

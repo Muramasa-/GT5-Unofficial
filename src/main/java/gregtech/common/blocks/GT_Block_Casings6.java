@@ -16,7 +16,7 @@ public class GT_Block_Casings6 extends GT_Block_Casings_Abstract {
             Textures.BlockIcons.CASING_BLOCKS[(i + 80)] = new GT_CopiedBlockTexture(this, 6, i);
         }
         GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".0.name", "Ceramic Pipe Casing");
-        GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".1.name", "Coiled Copper Tubing Block");
+        GT_LanguageManager.addStringLocalization(getUnlocalizedName() + ".1.name", "Coiled Copper Tubing");
 
         ItemList.Casing_Pipe_Ceramic.set(new ItemStack(this, 1, 0));
         ItemList.Casing_Coiled_Tubing_Copper.set(new ItemStack(this, 1, 1));

@@ -1,6 +1,7 @@
 package gregtech.common.tileentities.machines.multi;
 
 import gregtech.api.GregTech_API;
+import gregtech.api.enums.GT_Values;
 import gregtech.api.enums.Textures;
 import gregtech.api.gui.GT_GUIContainer_MultiMachine;
 import gregtech.api.interfaces.ITexture;
@@ -20,8 +21,9 @@ import java.util.Collection;
 
 public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_MultiBlockBase {
 
+    public GT_Recipe mLastRecipe;
     public GT_MetaTileEntity_PlasmaHatch_Output mOutputPlasmaHatch;
-    public GT_MetaTileEntity_Hatch_Input mInputHydrogenHatch;
+    public GT_MetaTileEntity_Hatch_Input mInputMaterialHatch;
     public GT_MetaTileEntity_Hatch_Input mInputGas;
     public GT_MetaTileEntity_Hatch_Output mOutputGas;
 
@@ -65,21 +67,25 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
     @Override
     public boolean checkRecipe(ItemStack aStack) {
         Collection<GT_Recipe> tRecipeList = GT_Recipe.GT_Recipe_Map.sHPFurnaceRecipes.mRecipeList;
-        if(mInputHydrogenHatch.mFluid != null && mInputGas.mFluid != null && tRecipeList != null) {
-            for(GT_Recipe aRecipe : tRecipeList) {
-                FluidStack aRecipeInput = aRecipe.getRepresentativeFluidInput(0);
-                FluidStack aRecipeGas = aRecipe.getRepresentativeFluidInput(1);
-                if((aRecipeInput != null || aRecipeGas != null) && mInputHydrogenHatch.mFluid.isFluidEqual(aRecipeInput) && mInputGas.mFluid.isFluidEqual(aRecipeGas)) {
-                    mInputHydrogenHatch.mFluid.amount--;
-                    mInputGas.mFluid.amount--;
-                    mOutputPlasmaHatch.fill(aRecipe.getFluidOutput(1), true);
-                    mOutputGas.fill(aRecipe.getFluidOutput(0), true);
-                    this.mEUt = 0;
-                    this.mProgresstime = 1;
-                    this.mMaxProgresstime = 1;
-                    this.mEfficiencyIncrease = 10000;
-                    return true;
-                }
+        if(mInputMaterialHatch.mFluid != null && mInputGas.mFluid != null && tRecipeList != null) {
+            FluidStack[] tFluids = new FluidStack[]{mInputMaterialHatch.mFluid, mInputGas.mFluid};
+            GT_Recipe aRecipe = GT_Recipe.GT_Recipe_Map.sHPFurnaceRecipes.findRecipe(this.getBaseMetaTileEntity(), mLastRecipe, false, GT_Values.V[8], tFluids);
+            if(aRecipe == null) {
+                mLastRecipe = null;
+                turnCasingActive(false);
+                return false;
+            } else {
+                mLastRecipe = aRecipe;
+                turnCasingActive(true);
+                mInputMaterialHatch.mFluid.amount--; //TODO Balance
+                mInputGas.mFluid.amount--; //TODO Balance
+                mOutputPlasmaHatch.fill(aRecipe.getFluidOutput(1), true);
+                mOutputGas.fill(aRecipe.getFluidOutput(0), true);
+                this.mEUt = 0; //TODO Balance
+                this.mProgresstime = 1;
+                this.mMaxProgresstime = 1;
+                this.mEfficiencyIncrease = 10000;
+                return true;
             }
         }
         return false;
@@ -128,7 +134,7 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
                         if (aBaseMetaTileEntity.getMetaIDOffset(xDir + i, k, zDir + j) != getPipeMeta())
                             return false;
                     }
-                    if(!(addPlasmaOutput(aBaseMetaTileEntity.getIGregTechTileEntityOffset(xDir + i, 3, zDir + j), getPipeCasingTextureIndex())))
+                    if(!(addPlasmaOutput(aBaseMetaTileEntity.getIGregTechTileEntityOffset(xDir + i, 3, zDir + j), getPlasmaPipeCasingTextureIndex())))
                         return false;
                     if(!(addHydrogenInput(aBaseMetaTileEntity.getIGregTechTileEntityOffset(xDir + i, 0, zDir + j), getPipeCasingTextureIndex())))
                         return false;
@@ -136,6 +142,12 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
             }
         }
         return (tCasingAmount >= 12) && (tCoilAmount >= 14);
+    }
+
+    @Override
+    public void onPostTick(IGregTechTileEntity aBaseMetaTileEntity, long aTick) {
+        if(aBaseMetaTileEntity.isServerSide()) turnCasingActive(aBaseMetaTileEntity.isActive());
+        super.onPostTick(aBaseMetaTileEntity, aTick);
     }
 
     public boolean addPlasmaOutput(IGregTechTileEntity aTileEntity, int aBaseCasingIndex) {
@@ -156,7 +168,7 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
         if (aMetaTileEntity == null) return false;
         if (aMetaTileEntity instanceof GT_MetaTileEntity_Hatch_Input) {
             ((GT_MetaTileEntity_Hatch) aMetaTileEntity).mMachineBlock = (byte) aBaseCasingIndex;
-            mInputHydrogenHatch = (GT_MetaTileEntity_Hatch_Input) aMetaTileEntity;
+            mInputMaterialHatch = (GT_MetaTileEntity_Hatch_Input) aMetaTileEntity;
             return true;
         }
         return false;
@@ -184,6 +196,10 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
             return true;
         }
         return false;
+    }
+
+    public void turnCasingActive(boolean status) {
+        if(mOutputPlasmaHatch != null) mOutputPlasmaHatch.mMachineBlock  = status ? (byte) 52 : (byte) 53;
     }
 
     public Block getCasingBlock() {
@@ -215,7 +231,11 @@ public class GT_MetaTileEntity_HighPressureFurnace extends GT_MetaTileEntity_Mul
     }
 
     public byte getPipeCasingTextureIndex() {
-        return 80;
+        return 48;
+    }
+
+    public byte getPlasmaPipeCasingTextureIndex() {
+        return 53;
     }
 
     public byte getCoilTextureIndex() {
