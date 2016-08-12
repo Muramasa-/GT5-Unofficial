@@ -132,6 +132,7 @@ public class GT_Worldgenerator
                 short secondaryMeta = 0;
                 short betweenMeta = 0;
                 short sporadicMeta = 0;
+                GT_Worldgen_GT_Ore_Layer aWorldGen = null;
                 if ((GT_Worldgen_GT_Ore_Layer.sWeight > 0) && (GT_Worldgen_GT_Ore_Layer.sList.size() > 0)) {
                     boolean temp = true;
                     int tRandomWeight;
@@ -146,6 +147,7 @@ public class GT_Worldgenerator
                                         secondaryMeta = tWorldGen.mSecondaryMeta;
                                         betweenMeta = tWorldGen.mBetweenMeta;
                                         sporadicMeta = tWorldGen.mSporadicMeta;
+                                        aWorldGen = tWorldGen;
                                         temp = false;
                                         break;
                                     }
@@ -196,13 +198,17 @@ public class GT_Worldgenerator
                                             if ((var39 * var39 + var42 * var42 + var45 * var45 < 1.0D) && (mWorld.getBlock(tX, tY, tZ).isAir(mWorld, tX, tY, tZ))) {
                                                 int ranOre = aRandom.nextInt(50);
                                                 if (ranOre < 3) {
-                                                    GT_TileEntity_Ores.setOreBlock(mWorld, eX, eY, eZ, primaryMeta, false);
+                                                    if (primaryMeta != -1) GT_TileEntity_Ores.setOreBlock(mWorld, eX, eY, eZ, primaryMeta, false);
+                                                    else GT_TileEntity_Ores.setOreBlock(mWorld, eX, eY, eZ, aWorldGen.mPrimaryBlock, aWorldGen.mPrimaryDamage, false);
                                                 } else if (ranOre < 6) {
-                                                    GT_TileEntity_Ores.setOreBlock(mWorld, eX, eY, eZ, secondaryMeta, false);
+                                                    if (secondaryMeta != -1) GT_TileEntity_Ores.setOreBlock(mWorld, eX, eY, eZ, secondaryMeta, false);
+                                                    else GT_TileEntity_Ores.setOreBlock(mWorld, eX, eY, eZ, aWorldGen.mSecondaryBlock, aWorldGen.mSecondaryDamage, false);
                                                 } else if (ranOre < 8) {
-                                                    GT_TileEntity_Ores.setOreBlock(mWorld, eX, eY, eZ, betweenMeta, false);
+                                                    if (betweenMeta != -1) GT_TileEntity_Ores.setOreBlock(mWorld, eX, eY, eZ, betweenMeta, false);
+                                                    else GT_TileEntity_Ores.setOreBlock(mWorld, eX, eY, eZ, aWorldGen.mBetweenBlock, aWorldGen.mBetweenDamage, false);
                                                 } else if (ranOre < 10) {
-                                                    GT_TileEntity_Ores.setOreBlock(mWorld, eX, eY, eZ, sporadicMeta, false);
+                                                    if (sporadicMeta != -1) GT_TileEntity_Ores.setOreBlock(mWorld, eX, eY, eZ, sporadicMeta, false);
+                                                    else GT_TileEntity_Ores.setOreBlock(mWorld, eX, eY, eZ, aWorldGen.mSporadicBlock, aWorldGen.mSporadicDamage, false);
                                                 } else {
                                                     if (tDimensionType == -1) {
                                                         mWorld.setBlock(eX, eY, eZ, Blocks.end_stone, 0, 0);
