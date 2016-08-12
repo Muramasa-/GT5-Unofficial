@@ -9,6 +9,7 @@ import gregtech.api.objects.GT_CopiedBlockTexture;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.world.World;
 
 public class GT_Block_Ores_UB2 extends GT_Block_Ores_Abstract {
     Block aUBBlock = GameRegistry.findBlock("UndergroundBiomes", "metamorphicStone");
@@ -16,6 +17,7 @@ public class GT_Block_Ores_UB2 extends GT_Block_Ores_Abstract {
     public GT_Block_Ores_UB2() {
         super("gt.blockores.ub2", 8, true, Material.rock);
         if (aUBBlock == null) aUBBlock = Blocks.stone;
+        tBlockReplacementList.put(aUBBlock, this);
     }
 
     @Override
@@ -41,5 +43,14 @@ public class GT_Block_Ores_UB2 extends GT_Block_Ores_Abstract {
     @Override
     public ITexture[] getTextureSet() { //Must have 16 entries.
         return new ITexture[]{new GT_CopiedBlockTexture(aUBBlock, 0, 0), new GT_CopiedBlockTexture(aUBBlock, 0, 1), new GT_CopiedBlockTexture(aUBBlock, 0, 2), new GT_CopiedBlockTexture(aUBBlock, 0, 3), new GT_CopiedBlockTexture(aUBBlock, 0, 4), new GT_CopiedBlockTexture(aUBBlock, 0, 5), new GT_CopiedBlockTexture(aUBBlock, 0, 6), new GT_CopiedBlockTexture(aUBBlock, 0, 7), new GT_CopiedBlockTexture(aUBBlock, 0, 0), new GT_CopiedBlockTexture(aUBBlock, 0, 1), new GT_CopiedBlockTexture(aUBBlock, 0, 2), new GT_CopiedBlockTexture(aUBBlock, 0, 3), new GT_CopiedBlockTexture(aUBBlock, 0, 4), new GT_CopiedBlockTexture(aUBBlock, 0, 5), new GT_CopiedBlockTexture(aUBBlock, 0, 6), new GT_CopiedBlockTexture(aUBBlock, 0, 7)};
+    }
+
+    @Override
+    public boolean isValidBlock(Block aBlockKey, int aMetaData, boolean isSmallOre, World aWorld, int aX, int aY, int aZ) {
+        int aBlockMeta = aWorld.getBlockMetadata(aX, aY, aZ);
+        if (aBlockMeta > 0 && aBlockMeta <= 8) {
+            tMetaData = aMetaData + (aBlockMeta * 1000); return true;
+        }
+        return false;
     }
 }
