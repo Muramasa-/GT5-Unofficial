@@ -36,7 +36,7 @@ import java.util.Map;
 
 public abstract class GT_Block_Ores_Abstract extends GT_Generic_Block implements ITileEntityProvider {
     public static ThreadLocal<GT_TileEntity_Ores> mTemporaryTileEntity = new ThreadLocal();
-    public static Map<Block, GT_Block_Ores_Abstract> tBlockReplacementList = new HashMap<Block, GT_Block_Ores_Abstract>();
+    public static HashMap<Block, GT_Block_Ores_Abstract> tBlockReplacementList = new HashMap<Block, GT_Block_Ores_Abstract>();
     public static boolean FUCKING_LOCK = false;
     public static boolean tHideOres;
     public static int tOreMetaCount;

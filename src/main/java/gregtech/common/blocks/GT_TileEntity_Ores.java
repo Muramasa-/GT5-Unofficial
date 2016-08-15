@@ -20,7 +20,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Random;
 
 public class GT_TileEntity_Ores extends TileEntity implements ITexturedTileEntity {
@@ -44,31 +43,14 @@ public class GT_TileEntity_Ores extends TileEntity implements ITexturedTileEntit
     public static boolean setOreBlock(World aWorld, int aX, int aY, int aZ, int aMetaData, boolean isSmallOre, boolean air) {
         if (!air) aY = Math.min(aWorld.getActualHeight(), Math.max(aY, 1));
         Block tBlock = aWorld.getBlock(aX, aY, aZ);
-        if ((aMetaData > 0) && ((tBlock != Blocks.air) || air)) {
-            Map<Block, GT_Block_Ores_Abstract> aBlockList = GT_Block_Ores_Abstract.tBlockReplacementList;
-            Block aLastBlockKey = GT_Block_Ores_Abstract.tLastBlockKey;
+        GT_Block_Ores_Abstract tOreClass = GT_Block_Ores_Abstract.tBlockReplacementList.get(tBlock);
+        if ((tOreClass != null) && (aMetaData > 0) && ((tBlock != Blocks.air) || air)) {
             aMetaData += isSmallOre ? 16000 : 0;
-
-            Block tBlockKey = null;
-            GT_Block_Ores_Abstract tOreClass = null;
-            if (tBlock == aLastBlockKey) {
-                tBlockKey = aLastBlockKey;
-                tOreClass = aBlockList.get(tBlock); //Use last block to speed up worldgen?
-            } else if (aBlockList.containsKey(tBlock)) {
-                for (Block aBlockKey : aBlockList.keySet()) {
-                    if (tBlock == aBlockKey) {
-                        tBlockKey = aBlockKey;
-                        tOreClass = aBlockList.get(aBlockKey);
-                        GT_Block_Ores_Abstract.tLastBlockKey = aBlockKey;
-                        break;
-                    }
-                }
-            }
-            if ((tBlockKey != null || tOreClass != null) && (tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, tBlockKey) || tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.stone)) && tOreClass.isValidBlock(tBlockKey, aMetaData, isSmallOre, aWorld, aX, aY, aZ)) {
-                aWorld.setBlock(aX, aY, aZ, tOreClass.getDroppedBlock(), getHarvestData((short) tOreClass.tMetaData), 0);
+            if ((tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, tBlock) || tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.stone)) && tOreClass.isValidBlock(tBlock, aMetaData, isSmallOre, aWorld, aX, aY, aZ)) {
+                aWorld.setBlock(aX, aY, aZ, tOreClass.getDroppedBlock(), getHarvestData((short) GT_Block_Ores_Abstract.tMetaData), 0);
                 TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
                 if ((tTileEntity instanceof GT_TileEntity_Ores)) {
-                    ((GT_TileEntity_Ores) tTileEntity).mMetaData = ((short) aMetaData);
+                    ((GT_TileEntity_Ores) tTileEntity).mMetaData = ((short) GT_Block_Ores_Abstract.tMetaData);
                     ((GT_TileEntity_Ores) tTileEntity).mNatural = true;
                 }
                 return true;
@@ -141,7 +123,6 @@ public class GT_TileEntity_Ores extends TileEntity implements ITexturedTileEntit
         TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
         if (tTileEntity instanceof GT_TileEntity_Ores) {
             ((GT_TileEntity_Ores) tTileEntity).mMetaData = aMeta;
-            this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, getHarvestData(aMeta), 0);
         }
     }
 
