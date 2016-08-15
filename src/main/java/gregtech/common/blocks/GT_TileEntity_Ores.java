@@ -20,7 +20,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Random;
 
 public class GT_TileEntity_Ores extends TileEntity implements ITexturedTileEntity {
@@ -48,41 +47,22 @@ public class GT_TileEntity_Ores extends TileEntity implements ITexturedTileEntit
     public static boolean setOreBlock(World aWorld, int aX, int aY, int aZ, int aMetaData, Block aWorldgenBlock, int aDamage, boolean isSmallOre, boolean isGTOre, boolean air) {
         if (!air) aY = Math.min(aWorld.getActualHeight(), Math.max(aY, 1));
         Block tBlock = aWorld.getBlock(aX, aY, aZ);
-        if (((tBlock != Blocks.air) || air)) {
-            if ((aMetaData > 0) && isGTOre) { // OreLayer is a GT meta ore
-                Map<Block, GT_Block_Ores_Abstract> aBlockList = GT_Block_Ores_Abstract.tBlockReplacementList;
-                Block aLastBlockKey = GT_Block_Ores_Abstract.tLastBlockKey;
+        if (isGTOre) { //tBlock is being replaced by a GT meta ore block. Else: tBlock is being replaced by a foreign block.
+            GT_Block_Ores_Abstract tOreClass = GT_Block_Ores_Abstract.tBlockReplacementList.get(tBlock);
+            if ((tOreClass != null) && (aMetaData > 0) && ((tBlock != Blocks.air) || air)) {
                 aMetaData += isSmallOre ? 16000 : 0;
-
-                Block tBlockKey = null;
-                GT_Block_Ores_Abstract tOreClass = null;
-                if (tBlock == aLastBlockKey) { //The target block matches the last block we replaced.
-                    tBlockKey = aLastBlockKey;
-                    tOreClass = aBlockList.get(tBlock); //Use last block to speed up worldgen?
-                } else if (aBlockList.containsKey(tBlock)) { //Not last block, is it in our block list?
-                    for (Block aBlockKey : aBlockList.keySet()) { //Is in list, find it
-                        if (tBlock == aBlockKey) {
-                            tBlockKey = aBlockKey;
-                            tOreClass = aBlockList.get(aBlockKey);
-                            GT_Block_Ores_Abstract.tLastBlockKey = aBlockKey;
-                            break;
-                        }
-                    }
-                }
-                if ((tBlockKey != null || tOreClass != null) && (tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, tBlockKey) || tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.stone)) && tOreClass.isValidBlock(tBlockKey, aMetaData, isSmallOre, aWorld, aX, aY, aZ)) {
-                    aWorld.setBlock(aX, aY, aZ, tOreClass.getDroppedBlock(), getHarvestData((short) tOreClass.tMetaData), 0);
+                if ((tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, tBlock) || tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.stone)) && tOreClass.isValidBlock(tBlock, aMetaData, isSmallOre, aWorld, aX, aY, aZ)) {
+                    aWorld.setBlock(aX, aY, aZ, tOreClass.getDroppedBlock(), getHarvestData((short) GT_Block_Ores_Abstract.tMetaData), 0);
                     TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
                     if ((tTileEntity instanceof GT_TileEntity_Ores)) {
-                        ((GT_TileEntity_Ores) tTileEntity).mMetaData = ((short) tOreClass.tMetaData);
+                        ((GT_TileEntity_Ores) tTileEntity).mMetaData = ((short) GT_Block_Ores_Abstract.tMetaData);
                         ((GT_TileEntity_Ores) tTileEntity).mNatural = true;
-                    }
+                    } else System.out.println("@@@@#### TE NOT GTORES ####@@@@ " + aX + " - " + aY + " - " + aZ);
                     return true;
                 }
-            } else if (!isGTOre) { // Ore layer is foreign block
-                if (tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.stone) || tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, GregTech_API.sBlockGranites) || tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, GregTech_API.sBlockStones)) {
-                    aWorld.setBlock(aX, aY, aZ, aWorldgenBlock, aDamage, 0);
-                }
             }
+        } else if (tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, Blocks.stone) || tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, GregTech_API.sBlockGranites) || tBlock.isReplaceableOreGen(aWorld, aX, aY, aZ, GregTech_API.sBlockStones)) {
+            aWorld.setBlock(aX, aY, aZ, aWorldgenBlock, aDamage, 0);
         }
         return false;
     }
@@ -151,7 +131,6 @@ public class GT_TileEntity_Ores extends TileEntity implements ITexturedTileEntit
         TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
         if (tTileEntity instanceof GT_TileEntity_Ores) {
             ((GT_TileEntity_Ores) tTileEntity).mMetaData = aMeta;
-            this.worldObj.setBlockMetadataWithNotify(this.xCoord, this.yCoord, this.zCoord, getHarvestData(aMeta), 0);
         }
     }
 

@@ -82,48 +82,52 @@ public class GT_Worldgen_GT_Ore_Layer
         if (!NumberUtils.isNumber(this.mPrimaryString)) { //Could be a block id/meta string
             Block aBlock = isForeignBlockValid(this.mPrimaryString.split(":")); //Find block with supplied data
             if (aBlock != null) { //Was it found?
+                int aDamage = Integer.parseInt(this.mPrimaryString.split(":")[2]); //Get block damage
                 this.mPrimaryBlock = aBlock;
-                this.mPrimaryDamage = Integer.parseInt(this.mPrimaryString.split(":")[2]);
+                this.mPrimaryDamage = aDamage;
                 this.mIsPrimaryGT = false; //No longer spawning gt ore for this layer
             } else  { //Block not found, use normal ore metadata
                 this.mPrimaryMeta = (short) aPrimary.mMetaItemSubID;
-                GT_Log.err.println("Block ID/Meta for the primary layer in the " + this.mWorldGenName + " ore mix was invalid or the block doesn't exist");
+                GT_Log.err.println("Block ID/Meta for the primary layer in the " + this.mWorldGenName + " ore mix was invalid, block doesn't exist or has a tile entity.");
             }
         } else this.mPrimaryMeta = Short.parseShort(this.mPrimaryString); //Is a number, must be standard ore metadata
 
         if (!NumberUtils.isNumber(this.mSecondaryString)) {
             Block aBlock = isForeignBlockValid(this.mSecondaryString.split(":"));
             if (aBlock != null) {
+                int aDamage = Integer.parseInt(this.mSecondaryString.split(":")[2]);
                 this.mSecondaryBlock = aBlock;
-                this.mSecondaryDamage = Integer.parseInt(this.mSecondaryString.split(":")[2]);
+                this.mSecondaryDamage = aDamage;
                 this.mIsSecondaryGT = false;
             } else {
                 this.mSecondaryMeta = (short) aSecondary.mMetaItemSubID;
-                GT_Log.err.println("Block ID/Meta for the secondary layer in the " + this.mWorldGenName + " ore mix was invalid or the block doesn't exist");
+                GT_Log.err.println("Block ID/Meta for the secondary layer in the " + this.mWorldGenName + " ore mix was invalid, block doesn't exist or has a tile entity.");
             }
         } else this.mSecondaryMeta = Short.parseShort(this.mSecondaryString);
 
         if (!NumberUtils.isNumber(this.mBetweenString)) {
             Block aBlock = isForeignBlockValid(this.mBetweenString.split(":"));
             if (aBlock != null) {
+                int aDamage = Integer.parseInt(this.mBetweenString.split(":")[2]);
                 this.mBetweenBlock = aBlock;
-                this.mBetweenDamage = Integer.parseInt(this.mBetweenString.split(":")[2]);
+                this.mBetweenDamage = aDamage;
                 this.mIsBetweenGT = false;
             } else {
                 this.mBetweenMeta = (short) aBetween.mMetaItemSubID;
-                GT_Log.err.println("Block ID/Meta for the between layer in the " + this.mWorldGenName + " ore mix was invalid or the block doesn't exist");
+                GT_Log.err.println("Block ID/Meta for the between layer in the " + this.mWorldGenName + " ore mix was invalid, block doesn't exist or has a tile entity.");
             }
         } else this.mBetweenMeta = Short.parseShort(this.mBetweenString);
 
         if (!NumberUtils.isNumber(this.mSporadicString)) {
             Block aBlock = isForeignBlockValid(this.mSporadicString.split(":"));
             if (aBlock != null) {
+                int aDamage = Integer.parseInt(this.mSporadicString.split(":")[2]);
                 this.mSporadicBlock = aBlock;
-                this.mSporadicDamage = Integer.parseInt(this.mSporadicString.split(":")[2]);
+                this.mSporadicDamage = aDamage;
                 this.misSporadicGT = false;
             } else {
                 this.mSporadicMeta = (short) aSporadic.mMetaItemSubID;
-                GT_Log.err.println("Block ID/Meta for the sporadic layer in the " + this.mWorldGenName + " ore mix was invalid or the block doesn't exist");
+                GT_Log.err.println("Block ID/Meta for the sporadic layer in the " + this.mWorldGenName + " ore mix was invalid, block doesn't exist or has a tile entity.");
             }
         } else this.mSporadicMeta = Short.parseShort(this.mSporadicString);
 
@@ -198,7 +202,10 @@ public class GT_Worldgen_GT_Ore_Layer
 
     public static Block isForeignBlockValid(String[] aMetaParts) {
         if (aMetaParts.length == 3 && NumberUtils.isNumber(aMetaParts[2])) {
-            return GameRegistry.findBlock(aMetaParts[0], aMetaParts[1]);
+            Block aBlock =  GameRegistry.findBlock(aMetaParts[0], aMetaParts[1]);
+            if (aBlock != null && (!aBlock.hasTileEntity(Integer.parseInt(aMetaParts[2])))) {
+                return aBlock;
+            }
         }
         return null;
     }
