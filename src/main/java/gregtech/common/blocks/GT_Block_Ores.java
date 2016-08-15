@@ -49,18 +49,19 @@ public class GT_Block_Ores extends GT_Block_Ores_Abstract {
 
     @Override
     public boolean isValidBlock(Block aBlockKey, int aMetaData, boolean isSmallOre, World aWorld, int aX, int aY, int aZ) {
+        int aBlockMeta = aWorld.getBlockMetadata(aX, aY, aZ);
         if (aBlockKey == Blocks.netherrack) {
             tMetaData = aMetaData + 1000; return true;
         } else if (aBlockKey == Blocks.end_stone) {
             tMetaData = aMetaData + 2000; return true;
         } else if (aBlockKey == GregTech_API.sBlockGranites) {
-            if (aWorld.getBlockMetadata(aX, aY, aZ) < 8)
+            if (aBlockMeta < 8)
                 tMetaData = aMetaData + 3000;
             else
                 tMetaData = aMetaData + 4000;
             return true;
         } else if (aBlockKey == GregTech_API.sBlockStones) {
-            if (aWorld.getBlockMetadata(aX, aY, aZ) < 8)
+            if (aBlockMeta < 8)
                 tMetaData = aMetaData + 5000;
             else
                 tMetaData = aMetaData + 6000;
