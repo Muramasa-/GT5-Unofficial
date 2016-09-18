@@ -6,20 +6,22 @@ import gregtech.api.enums.OrePrefixes;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.objects.GT_CopiedBlockTexture;
+import gregtech.api.objects.GT_OreGenHandler;
 import gregtech.api.objects.GT_RenderedTexture;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
-import net.minecraft.world.World;
 
 public class GT_Block_Ores extends GT_Block_Ores_Abstract {
     public GT_Block_Ores() {
         super("gt.blockores", 7, false, Material.rock);
-        tBlockReplacementList.put(Blocks.stone, this);
-        tBlockReplacementList.put(Blocks.netherrack, this);
-        tBlockReplacementList.put(Blocks.end_stone, this);
-        tBlockReplacementList.put(GregTech_API.sBlockGranites, this);
-        tBlockReplacementList.put(GregTech_API.sBlockStones, this);
+        GT_OreGenHandler.tBlockList.add(new GT_OreGenHandler(Blocks.stone, 0, this, (short) 0));
+        GT_OreGenHandler.tBlockList.add(new GT_OreGenHandler(Blocks.netherrack, 0, this, (short) 1000));
+        GT_OreGenHandler.tBlockList.add(new GT_OreGenHandler(Blocks.end_stone, 0, this, (short) 2000));
+        GT_OreGenHandler.tBlockList.add(new GT_OreGenHandler(GregTech_API.sBlockGranites, 0, this, (short) 3000));
+        GT_OreGenHandler.tBlockList.add(new GT_OreGenHandler(GregTech_API.sBlockGranites, 8, this, (short) 4000));
+        GT_OreGenHandler.tBlockList.add(new GT_OreGenHandler(GregTech_API.sBlockStones, 0, this, (short) 5000));
+        GT_OreGenHandler.tBlockList.add(new GT_OreGenHandler(GregTech_API.sBlockStones, 8, this, (short) 6000));
     }
 
     @Override
@@ -45,28 +47,5 @@ public class GT_Block_Ores extends GT_Block_Ores_Abstract {
     @Override
     public ITexture[] getTextureSet() { //Must have 16 entries.
         return new ITexture[]{new GT_CopiedBlockTexture(Blocks.stone, 0, 0), new GT_CopiedBlockTexture(Blocks.netherrack, 0, 0), new GT_CopiedBlockTexture(Blocks.end_stone, 0, 0), new GT_RenderedTexture(Textures.BlockIcons.GRANITE_BLACK_STONE), new GT_RenderedTexture(Textures.BlockIcons.GRANITE_RED_STONE), new GT_RenderedTexture(Textures.BlockIcons.MARBLE_STONE), new GT_RenderedTexture(Textures.BlockIcons.BASALT_STONE), new GT_CopiedBlockTexture(Blocks.stone, 0, 0), new GT_CopiedBlockTexture(Blocks.stone, 0, 0), new GT_CopiedBlockTexture(Blocks.stone, 0, 0), new GT_CopiedBlockTexture(Blocks.stone, 0, 0), new GT_CopiedBlockTexture(Blocks.stone, 0, 0), new GT_CopiedBlockTexture(Blocks.stone, 0, 0), new GT_CopiedBlockTexture(Blocks.stone, 0, 0), new GT_CopiedBlockTexture(Blocks.stone, 0, 0), new GT_CopiedBlockTexture(Blocks.stone, 0, 0)};
-    }
-
-    @Override
-    public boolean isValidBlock(Block aBlockKey, int aMetaData, boolean isSmallOre, World aWorld, int aX, int aY, int aZ) {
-        int aBlockMeta = aWorld.getBlockMetadata(aX, aY, aZ);
-        if (aBlockKey == Blocks.netherrack) {
-            tMetaData = aMetaData + 1000; return true;
-        } else if (aBlockKey == Blocks.end_stone) {
-            tMetaData = aMetaData + 2000; return true;
-        } else if (aBlockKey == GregTech_API.sBlockGranites) {
-            if (aBlockMeta < 8)
-                tMetaData = aMetaData + 3000;
-            else
-                tMetaData = aMetaData + 4000;
-            return true;
-        } else if (aBlockKey == GregTech_API.sBlockStones) {
-            if (aBlockMeta < 8)
-                tMetaData = aMetaData + 5000;
-            else
-                tMetaData = aMetaData + 6000;
-            return true;
-        }
-        return false;
     }
 }

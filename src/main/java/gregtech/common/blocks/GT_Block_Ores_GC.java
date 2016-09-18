@@ -6,10 +6,10 @@ import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.objects.GT_CopiedBlockTexture;
+import gregtech.api.objects.GT_OreGenHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
-import net.minecraft.world.World;
 
 public class GT_Block_Ores_GC extends GT_Block_Ores_Abstract {
     Block aMoonBlock = GameRegistry.findBlock("GalacticraftCore", "tile.moonBlock");
@@ -19,8 +19,10 @@ public class GT_Block_Ores_GC extends GT_Block_Ores_Abstract {
         super("gt.blockores.gc", 4, true, Material.rock);
         if (aMoonBlock == null) aMoonBlock = Blocks.stone;
         if (aMarsBlock == null) aMarsBlock = Blocks.stone;
-        tBlockReplacementList.put(aMoonBlock, this);
-        tBlockReplacementList.put(aMarsBlock, this);
+        GT_OreGenHandler.tBlockList.add(new GT_OreGenHandler(aMoonBlock, 3, this, (short) 0));
+        GT_OreGenHandler.tBlockList.add(new GT_OreGenHandler(aMoonBlock, 4, this, (short) 1000));
+        GT_OreGenHandler.tBlockList.add(new GT_OreGenHandler(aMarsBlock, 6, this, (short) 2000));
+        GT_OreGenHandler.tBlockList.add(new GT_OreGenHandler(aMarsBlock, 9, this, (short) 3000));
     }
 
     @Override
@@ -46,16 +48,5 @@ public class GT_Block_Ores_GC extends GT_Block_Ores_Abstract {
     @Override
     public ITexture[] getTextureSet() { //Must have 16 entries.
         return new ITexture[]{new GT_CopiedBlockTexture(aMoonBlock, 0, 3), new GT_CopiedBlockTexture(aMoonBlock, 0, 4), new GT_CopiedBlockTexture(aMarsBlock, 0, 6), new GT_CopiedBlockTexture(aMarsBlock, 0, 9), new GT_CopiedBlockTexture(Blocks.stone, 0, 0), new GT_CopiedBlockTexture(Blocks.stone, 0, 0), new GT_CopiedBlockTexture(Blocks.stone, 0, 0), new GT_CopiedBlockTexture(Blocks.stone, 0, 0),new GT_CopiedBlockTexture(aMoonBlock, 0, 3), new GT_CopiedBlockTexture(aMoonBlock, 0, 4), new GT_CopiedBlockTexture(aMarsBlock, 0, 6), new GT_CopiedBlockTexture(aMarsBlock, 0, 9), new GT_CopiedBlockTexture(Blocks.stone, 0, 0), new GT_CopiedBlockTexture(Blocks.stone, 0, 0), new GT_CopiedBlockTexture(Blocks.stone, 0, 0), new GT_CopiedBlockTexture(Blocks.stone, 0, 0)};
-    }
-
-    @Override
-    public boolean isValidBlock(Block aBlockKey, int aMetaData, boolean isSmallOre, World aWorld, int aX, int aY, int aZ) {
-        switch (aWorld.getBlockMetadata(aX, aY, aZ)) {
-            case 3: tMetaData = aMetaData; return true;
-            case 4: tMetaData = aMetaData + 1000; return true;
-            case 6: tMetaData = aMetaData + 2000; return true;
-            case 9: tMetaData = aMetaData + 3000; return true;
-        }
-        return false;
     }
 }

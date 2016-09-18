@@ -30,18 +30,13 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public abstract class GT_Block_Ores_Abstract extends GT_Generic_Block implements ITileEntityProvider {
     public static ThreadLocal<GT_TileEntity_Ores> mTemporaryTileEntity = new ThreadLocal();
-    public static HashMap<Block, GT_Block_Ores_Abstract> tBlockReplacementList = new HashMap<Block, GT_Block_Ores_Abstract>();
     public static boolean FUCKING_LOCK = false;
     public static boolean tHideOres;
     public static int tOreMetaCount;
-    public static int tMetaData;
-    public static Block tLastBlockKey;
 
     protected GT_Block_Ores_Abstract(String aUnlocalizedName, int aOreMetaCount, boolean aHideFirstMeta, Material aMaterial) {
         super(GT_Item_Ores.class, aUnlocalizedName, aMaterial);
@@ -218,8 +213,6 @@ public abstract class GT_Block_Ores_Abstract extends GT_Generic_Block implements
         super.breakBlock(aWorld, aX, aY, aZ, par5, par6);
         aWorld.removeTileEntity(aX, aY, aZ);
     }
-
-    public abstract boolean isValidBlock(Block aBlockKey, int aMetaData, boolean isSmallOre, World aWorld, int aX, int aY, int aZ);
 
     public abstract OrePrefixes[] getProcessingPrefix(); //Must have 8 entries; an entry can be null to disable automatic recipes.
 

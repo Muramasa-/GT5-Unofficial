@@ -6,10 +6,10 @@ import gregtech.api.enums.Materials;
 import gregtech.api.enums.OrePrefixes;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.objects.GT_CopiedBlockTexture;
+import gregtech.api.objects.GT_OreGenHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
-import net.minecraft.world.World;
 
 public class GT_Block_Ores_UB3 extends GT_Block_Ores_Abstract {
     Block aUBBlock = GameRegistry.findBlock("UndergroundBiomes", "sedimentaryStone");
@@ -17,7 +17,14 @@ public class GT_Block_Ores_UB3 extends GT_Block_Ores_Abstract {
     public GT_Block_Ores_UB3() {
         super("gt.blockores.ub3", 8, true, Material.rock);
         if (aUBBlock == null) aUBBlock = Blocks.stone;
-        tBlockReplacementList.put(aUBBlock, this);
+        GT_OreGenHandler.tBlockList.add(new GT_OreGenHandler(aUBBlock, 0, this, (short) 0));
+        GT_OreGenHandler.tBlockList.add(new GT_OreGenHandler(aUBBlock, 1, this, (short) 1000));
+        GT_OreGenHandler.tBlockList.add(new GT_OreGenHandler(aUBBlock, 2, this, (short) 2000));
+        GT_OreGenHandler.tBlockList.add(new GT_OreGenHandler(aUBBlock, 3, this, (short) 3000));
+        GT_OreGenHandler.tBlockList.add(new GT_OreGenHandler(aUBBlock, 4, this, (short) 4000));
+        GT_OreGenHandler.tBlockList.add(new GT_OreGenHandler(aUBBlock, 5, this, (short) 5000));
+        GT_OreGenHandler.tBlockList.add(new GT_OreGenHandler(aUBBlock, 6, this, (short) 6000));
+        GT_OreGenHandler.tBlockList.add(new GT_OreGenHandler(aUBBlock, 7, this, (short) 7000));
     }
 
     @Override
@@ -43,14 +50,5 @@ public class GT_Block_Ores_UB3 extends GT_Block_Ores_Abstract {
     @Override
     public ITexture[] getTextureSet() { //Must have 16 entries.
         return new ITexture[]{new GT_CopiedBlockTexture(aUBBlock, 0, 0), new GT_CopiedBlockTexture(aUBBlock, 0, 1), new GT_CopiedBlockTexture(aUBBlock, 0, 2), new GT_CopiedBlockTexture(aUBBlock, 0, 3), new GT_CopiedBlockTexture(aUBBlock, 0, 4), new GT_CopiedBlockTexture(aUBBlock, 0, 5), new GT_CopiedBlockTexture(aUBBlock, 0, 6), new GT_CopiedBlockTexture(aUBBlock, 0, 7), new GT_CopiedBlockTexture(aUBBlock, 0, 0), new GT_CopiedBlockTexture(aUBBlock, 0, 1), new GT_CopiedBlockTexture(aUBBlock, 0, 2), new GT_CopiedBlockTexture(aUBBlock, 0, 3), new GT_CopiedBlockTexture(aUBBlock, 0, 4), new GT_CopiedBlockTexture(aUBBlock, 0, 5), new GT_CopiedBlockTexture(aUBBlock, 0, 6), new GT_CopiedBlockTexture(aUBBlock, 0, 7)};
-    }
-
-    @Override
-    public boolean isValidBlock(Block aBlockKey, int aMetaData, boolean isSmallOre, World aWorld, int aX, int aY, int aZ) {
-        int aBlockMeta = aWorld.getBlockMetadata(aX, aY, aZ);
-        if (aBlockMeta > 0 && aBlockMeta <= 8) {
-            tMetaData = aMetaData + (aBlockMeta * 1000); return true;
-        }
-        return false;
     }
 }
