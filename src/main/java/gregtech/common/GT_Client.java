@@ -30,6 +30,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+import org.eclipse.collections.impl.list.mutable.FastList;
 import org.lwjgl.opengl.GL11;
 
 import java.net.URL;
@@ -121,21 +122,21 @@ public class GT_Client extends GT_Proxy
 
     private static void drawGrid(DrawBlockHighlightEvent aEvent) {
         GL11.glPushMatrix();
-        GL11.glTranslated(-(aEvent.player.lastTickPosX + (aEvent.player.posX - aEvent.player.lastTickPosX) * (double) aEvent.partialTicks), -(aEvent.player.lastTickPosY + (aEvent.player.posY - aEvent.player.lastTickPosY) * (double) aEvent.partialTicks), -(aEvent.player.lastTickPosZ + (aEvent.player.posZ - aEvent.player.lastTickPosZ) * (double) aEvent.partialTicks));
-        GL11.glTranslated((float) aEvent.target.blockX + 0.5F, (float) aEvent.target.blockY + 0.5F, (float) aEvent.target.blockZ + 0.5F);
+        GL11.glTranslatef(-((float)aEvent.player.lastTickPosX + ((float)aEvent.player.posX - (float)aEvent.player.lastTickPosX) * (float)aEvent.partialTicks), -((float)aEvent.player.lastTickPosY + ((float)aEvent.player.posY - (float)aEvent.player.lastTickPosY) * (float)aEvent.partialTicks), -((float)aEvent.player.lastTickPosZ + ((float)aEvent.player.posZ - (float)aEvent.player.lastTickPosZ) * (float)aEvent.partialTicks));
+        GL11.glTranslatef((float) aEvent.target.blockX + 0.5F, (float) aEvent.target.blockY + 0.5F, (float) aEvent.target.blockZ + 0.5F);
         Rotation.sideRotations[aEvent.target.sideHit].glApply();
-        GL11.glTranslated(0.0D, -0.501D, 0.0D);
+        GL11.glTranslatef(0.0f, -0.501f, 0.0f);
         GL11.glLineWidth(2.0F);
-        GL11.glColor4f(0.0F, 0.0F, 0.0F, 0.5F);
+        GL11.glColor4f(0.0f, 0.0f, 0.0f, 0.5f);
         GL11.glBegin(1);
-        GL11.glVertex3d(0.5D, 0.0D, -0.25D);
-        GL11.glVertex3d(-0.5D, 0.0D, -0.25D);
-        GL11.glVertex3d(0.5D, 0.0D, 0.25D);
-        GL11.glVertex3d(-0.5D, 0.0D, 0.25D);
-        GL11.glVertex3d(0.25D, 0.0D, -0.5D);
-        GL11.glVertex3d(0.25D, 0.0D, 0.5D);
-        GL11.glVertex3d(-0.25D, 0.0D, -0.5D);
-        GL11.glVertex3d(-0.25D, 0.0D, 0.5D);
+        GL11.glVertex3f(0.5f, 0.0f, -0.25f);
+        GL11.glVertex3f(-0.5f, 0.0f, -0.25f);
+        GL11.glVertex3f(0.5f, 0.0f, 0.25f);
+        GL11.glVertex3f(-0.5f, 0.0f, 0.25f);
+        GL11.glVertex3f(0.25f, 0.0f, -0.5f);
+        GL11.glVertex3f(0.25f, 0.0f, 0.5f);
+        GL11.glVertex3f(-0.25f, 0.0f, -0.5f);
+        GL11.glVertex3f(-0.25f, 0.0f, 0.5f);
         GL11.glEnd();
         GL11.glPopMatrix();
     }
@@ -252,7 +253,7 @@ public class GT_Client extends GT_Proxy
     @SubscribeEvent
     public void onPlayerTickEventClient(TickEvent.PlayerTickEvent aEvent) {
         if ((aEvent.side.isClient()) && (aEvent.phase == TickEvent.Phase.END) && (!aEvent.player.isDead)) {
-            ArrayList<GT_PlayedSound> tList = new ArrayList();
+            List<GT_PlayedSound> tList = new FastList();
             for (Map.Entry<GT_PlayedSound, Integer> tEntry : GT_Utility.sPlayedSoundMap.entrySet()) {
                 if (tEntry.getValue().intValue() < 0) {//Integer -> Integer -> int? >_<, fix
                     tList.add(tEntry.getKey());

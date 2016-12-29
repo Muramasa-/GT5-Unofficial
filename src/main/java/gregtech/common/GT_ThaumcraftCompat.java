@@ -10,6 +10,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
+import org.eclipse.collections.impl.list.mutable.FastList;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
@@ -118,7 +119,7 @@ public class GT_ThaumcraftCompat
             }
         }
         ResearchItem rResearch = new ResearchItem(aResearch, aCategory, getAspectList(aAspects), aX, aY, aComplexity, aIcon);
-        ArrayList<ResearchPage> tPages = new ArrayList(aPages.length);
+        List<ResearchPage> tPages = new FastList(aPages.length);
         GT_LanguageManager.addStringLocalization("tc.research_name." + aResearch, aName);
         GT_LanguageManager.addStringLocalization("tc.research_text." + aResearch, "[GT] " + aText);
         for (Object tPage : aPages) {
@@ -204,7 +205,7 @@ public class GT_ThaumcraftCompat
 			return true;
 		}
 		AspectList tAlreadyRegisteredAspects = ThaumcraftApiHelper.getObjectAspects(aStack);
-		if (tAlreadyRegisteredAspects == null || tAlreadyRegisteredAspects.size() <= 0) {
+		if (tAlreadyRegisteredAspects == null || tAlreadyRegisteredAspects.size() < 1) {
 			ThaumcraftApi.registerObjectTag(aStack, (AspectList)getAspectList(aAspects));
 		}
 		return true;

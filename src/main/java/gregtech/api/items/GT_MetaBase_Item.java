@@ -23,17 +23,18 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import org.eclipse.collections.impl.map.mutable.UnifiedMap;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
 import static gregtech.api.enums.GT_Values.D1;
 import static gregtech.api.enums.GT_Values.V;
 
 public abstract class GT_MetaBase_Item extends GT_Generic_Item implements ISpecialElectricItem, IElectricItemManager, IFluidContainerItem {
     /* ---------- CONSTRUCTOR AND MEMBER VARIABLES ---------- */
-    private final ConcurrentHashMap<Short, ArrayList<IItemBehaviour<GT_MetaBase_Item>>> mItemBehaviors = new ConcurrentHashMap<Short, ArrayList<IItemBehaviour<GT_MetaBase_Item>>>();
+    private final Map<Short, ArrayList<IItemBehaviour<GT_MetaBase_Item>>> mItemBehaviors = new UnifiedMap<Short, ArrayList<IItemBehaviour<GT_MetaBase_Item>>>();
 
     /**
      * Creates the Item using these Parameters.
@@ -419,7 +420,7 @@ public abstract class GT_MetaBase_Item extends GT_Generic_Item implements ISpeci
         NBTTagCompound tNBT = aStack.getTagCompound();
         if (tNBT == null) tNBT = new NBTTagCompound();
         tNBT.removeTag("GT.ItemCharge");
-        aCharge = Math.min(tStats[0] < 0 ? Math.abs(tStats[0] / 2) : aCharge, Math.abs(tStats[0]));
+        aCharge = Math.min(tStats[0] < 0 ? Math.abs(tStats[0] >> 1) : aCharge, Math.abs(tStats[0]));
         if (aCharge > 0) {
             aStack.setItemDamage(getChargedMetaData(aStack));
             tNBT.setLong("GT.ItemCharge", aCharge);

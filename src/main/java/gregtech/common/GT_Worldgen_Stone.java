@@ -22,19 +22,20 @@ public class GT_Worldgen_Stone
 
     public boolean executeWorldgen(World aWorld, Random aRandom, String aBiome, int aDimensionType, int aChunkX, int aChunkZ, IChunkProvider aChunkGenerator, IChunkProvider aChunkProvider) {
         if ((isGenerationAllowed(aWorld, aDimensionType, this.mDimensionType)) && ((this.mBiomeList.isEmpty()) || (this.mBiomeList.contains(aBiome))) && ((this.mProbability <= 1) || (aRandom.nextInt(this.mProbability) == 0))) {
+            float math_pi_0 = (float)Math.PI / this.mSize;
             for (int i = 0; i < this.mAmount; i++) {
                 int tX = aChunkX + aRandom.nextInt(16);
                 int tY = this.mMinY + aRandom.nextInt(this.mMaxY - this.mMinY);
                 int tZ = aChunkZ + aRandom.nextInt(16);
                 if ((this.mAllowToGenerateinVoid) || (!aWorld.getBlock(tX, tY, tZ).isAir(aWorld, tX, tY, tZ))) {
-                    float math_pi = 3.141593F;//FB: CNT - CNT_ROUGH_CONSTANT_VALUE
-                    float var6 = aRandom.nextFloat() * math_pi;
-                    float var1d = this.mSize / 8.0F;int var2d = tX + 8;int var3d = tZ + 8;int var4d = tY - 2;
-                    float mh_s_0 = MathHelper.sin(var6) * var1d;float mh_c_0 = MathHelper.cos(var6) * var1d;
-                    float var7 = var2d + mh_s_0;
-                    float var11 = var3d + mh_c_0;
+                    float var6 = aRandom.nextFloat() * (float)Math.PI;
+                    float mh_s_ = MathHelper.sin(var6);
+                    float mh_s_0 = mh_s_ * (this.mSize >> 3);
+                    float mh_c_0 = (float)Math.sqrt(1 - mh_s_*mh_s_) * (this.mSize >> 3);
+                    float var7 = tX + 8 + mh_s_0;
+                    float var11 = tZ + 8 + mh_c_0;
                     int var15r = aRandom.nextInt(3);int var17r = aRandom.nextInt(3);
-                    int var15 = var4d + var15r;
+                    int var15 = tY - 2 + var15r;
                     int mh_n_4=var17r - var15r;
                     float mh_n_0 = -2*mh_s_0;float mh_n_1 = -2*mh_c_0;
                     for (int var19 = 0; var19 <= this.mSize; var19++) {
@@ -42,8 +43,8 @@ public class GT_Worldgen_Stone
                         float var20 = var7 + mh_n_0 * var5d;
                         float var22 = var15 + mh_n_4 * var5d;
                         float var24 = var11 + mh_n_1 * var5d;
-                        float var6d = var19 * math_pi / this.mSize;
-                        float var26 = aRandom.nextFloat() * this.mSize / 16.0F;
+                        float var6d = var19 * math_pi_0;
+                        float var26 = aRandom.nextFloat() * (this.mSize >> 4);
                         float var28 = ((MathHelper.sin(var6d) + 1.0F) * var26 + 1.0F) / 2.0F;
                         int tMinX = MathHelper.floor_float(var20 - var28);
                         int tMinY = MathHelper.floor_float(var22 - var28);

@@ -28,25 +28,25 @@ import net.minecraftforge.common.AchievementPage;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.fluids.FluidStack;
+import org.eclipse.collections.impl.list.mutable.FastList;
+import org.eclipse.collections.impl.map.mutable.UnifiedMap;
 import thaumcraft.api.ThaumcraftApiHelper;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class GT_Achievements {
 
-    public static List<Materials> oreList = new ArrayList<Materials>();
-    public static List<Integer[]> oreStats = new ArrayList<Integer[]>();
+    public static List<Materials> oreList = new FastList<Materials>();
+    public static List<Integer[]> oreStats = new FastList<Integer[]>();
     public static int oreReg = -1;
-    public ConcurrentHashMap<String, Achievement> achievementList;
-    public ConcurrentHashMap<String, Boolean> issuedAchievements;
+    public UnifiedMap<String, Achievement> achievementList;
+    public UnifiedMap<String, Boolean> issuedAchievements;
     public int adjX = 5;
     public int adjY = 9;
 
     public GT_Achievements() {
-        this.achievementList = new ConcurrentHashMap();
-        this.issuedAchievements = new ConcurrentHashMap();
+        this.achievementList = new UnifiedMap();
+        this.issuedAchievements = new UnifiedMap();
         int oreList_sS=oreList.size();
         for (int i = 0; i < oreList_sS; i++) {
             if (oreList.get(i) != null) {
@@ -496,7 +496,7 @@ public class GT_Achievements {
                 if(data.mMaterial.mMaterial != Materials.Gunpowder){
                     issueAchievement(player, "cleandust");
                 }
-            } else if (data.mPrefix.name().startsWith("ore")) {
+            } else if (data.mPrefix.name() != null && data.mPrefix.name().startsWith("ore")) {
                 int data_getAllMaterialStacks_sS=data.getAllMaterialStacks().size();
                 for (int i = 0; i < data_getAllMaterialStacks_sS; i++) {
                     issueAchievement(player, data.getAllMaterialStacks().get(i).mMaterial.mName);

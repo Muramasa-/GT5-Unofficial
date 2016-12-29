@@ -19,6 +19,7 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
+import org.eclipse.collections.impl.list.mutable.FastList;
 
 import java.util.*;
 
@@ -107,8 +108,8 @@ public class GT_Recipe {
         for (ItemStack tStack : aOutputs) GT_Utility.updateItemStack(tStack);
 
         for (int i = 0; i < aChances.length; i++) if (aChances[i] <= 0) aChances[i] = 10000;
-        for (int i = 0; i < aFluidInputs.length; i++) aFluidInputs[i] = new GT_FluidStack(aFluidInputs[i]);
-        for (int i = 0; i < aFluidOutputs.length; i++) aFluidOutputs[i] = new GT_FluidStack(aFluidOutputs[i]);
+        for (int i = 0; i < aFluidInputs.length; i++) aFluidInputs[i] = new FluidStack(aFluidInputs[i].getFluid(), aFluidInputs[i].amount);
+        for (int i = 0; i < aFluidOutputs.length; i++) aFluidOutputs[i] = new FluidStack(aFluidOutputs[i].getFluid(), aFluidOutputs[i].amount);
 
         for (int i = 0; i < aInputs.length; i++)
             if (aInputs[i] != null && Items.feather.getDamage(aInputs[i]) != W)
@@ -124,7 +125,7 @@ public class GT_Recipe {
                 }
 
         if (aOptimize && aDuration >= 32) {
-            ArrayList<ItemStack> tList = new ArrayList<ItemStack>();
+            FastList<ItemStack> tList = new FastList<ItemStack>();
             tList.addAll(Arrays.asList(aInputs));
             tList.addAll(Arrays.asList(aOutputs));
             for (int i = 0; i < tList.size(); i++) if (tList.get(i) == null) tList.remove(i--);

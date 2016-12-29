@@ -15,8 +15,8 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.ChunkProviderEnd;
 import net.minecraft.world.gen.ChunkProviderHell;
+import org.eclipse.collections.impl.list.mutable.FastList;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -31,7 +31,7 @@ public class GT_Worldgenerator
     private static int gcMaxSize = 400;
     private static boolean endAsteroids = true;
     private static boolean gcAsteroids = true;
-    public List<Runnable> mList = new ArrayList();
+    public List<Runnable> mList = new FastList();
     public boolean mIsGenerating = false;
 
 
@@ -83,7 +83,7 @@ public class GT_Worldgenerator
         }
 
         public void run() {
-            if ((Math.abs(this.mX / 16) % 3 == 1) && (Math.abs(this.mZ / 16) % 3 == 1)) {
+            if (((this.mX / 16) % 3 == 1 || (this.mX / 16) % 3 == -1) && ((this.mZ / 16) % 3 == 1 || (this.mZ / 16) % 3 == -1)) {
                 if ((GT_Worldgen_GT_Ore_Layer.sWeight > 0) && (GT_Worldgen_GT_Ore_Layer.sList.size() > 0)) {
                     boolean temp = true;
                     int tRandomWeight;

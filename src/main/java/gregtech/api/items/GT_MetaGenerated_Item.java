@@ -27,11 +27,15 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
+import org.eclipse.collections.impl.map.mutable.UnifiedMap;
+import org.eclipse.collections.impl.map.mutable.primitive.ShortShortHashMap;
 import squeek.applecore.api.food.FoodValues;
 import squeek.applecore.api.food.IEdible;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.BitSet;
+import java.util.List;
 
 import static gregtech.api.enums.GT_Values.*;
 
@@ -55,7 +59,7 @@ public abstract class GT_MetaGenerated_Item extends GT_MetaBase_Item implements 
      * <p/>
      * You can also use the unlocalized Name gotten from getUnlocalizedName() as Key if you want to get a specific Item.
      */
-    public static final ConcurrentHashMap<String, GT_MetaGenerated_Item> sInstances = new ConcurrentHashMap<String, GT_MetaGenerated_Item>();
+    public static final UnifiedMap<String, GT_MetaGenerated_Item> sInstances = new UnifiedMap<String, GT_MetaGenerated_Item>();
 
 	/* ---------- CONSTRUCTOR AND MEMBER VARIABLES ---------- */
 
@@ -64,10 +68,10 @@ public abstract class GT_MetaGenerated_Item extends GT_MetaBase_Item implements 
     public final BitSet mVisibleItems;
     public final IIcon[][] mIconList;
 
-    public final ConcurrentHashMap<Short, IFoodStat> mFoodStats = new ConcurrentHashMap<Short, IFoodStat>();
-    public final ConcurrentHashMap<Short, Long[]> mElectricStats = new ConcurrentHashMap<Short, Long[]>();
-    public final ConcurrentHashMap<Short, Long[]> mFluidContainerStats = new ConcurrentHashMap<Short, Long[]>();
-    public final ConcurrentHashMap<Short, Short> mBurnValues = new ConcurrentHashMap<Short, Short>();
+    public final UnifiedMap<Short, IFoodStat> mFoodStats = new UnifiedMap<Short, IFoodStat>();
+    public final UnifiedMap<Short, Long[]> mElectricStats = new UnifiedMap<Short, Long[]>();
+    public final UnifiedMap<Short, Long[]> mFluidContainerStats = new UnifiedMap<Short, Long[]>();
+    public final ShortShortHashMap mBurnValues = new ShortShortHashMap();
 
     /**
      * Creates the Item using these Parameters.
@@ -325,9 +329,9 @@ public abstract class GT_MetaGenerated_Item extends GT_MetaBase_Item implements 
         for (short i = 0; i < j; i++)
             if (mEnabledItems.get(i)) {
                 for (byte k = 1; k < mIconList[i].length; k++) {
-                    mIconList[i][k] = aIconRegister.registerIcon(RES_PATH_ITEM + (GT_Config.troll ? "troll" : getUnlocalizedName() + "/" + i + "/" + k));
+                    mIconList[i][k] = aIconRegister.registerIcon(RES_PATH_ITEM + (/*GT_Config.troll ? "troll" : */getUnlocalizedName() + "/" + i + "/" + k));
                 }
-                mIconList[i][0] = aIconRegister.registerIcon(RES_PATH_ITEM + (GT_Config.troll ? "troll" : getUnlocalizedName() + "/" + i));
+                mIconList[i][0] = aIconRegister.registerIcon(RES_PATH_ITEM + (/*GT_Config.troll ? "troll" : */getUnlocalizedName() + "/" + i));
             }
     }
 

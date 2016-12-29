@@ -16,16 +16,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import org.eclipse.collections.impl.list.mutable.FastList;
 import speiger.src.crops.api.ICropCardInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import static gregtech.api.enums.GT_Values.E;
 
 public class GT_BaseCrop extends CropCard implements ICropCardInfo {
-    public static ArrayList<GT_BaseCrop> sCropList = new ArrayList<GT_BaseCrop>();
+    public static List<GT_BaseCrop> sCropList = new FastList<GT_BaseCrop>();
     private String mName = E, mDiscoveredBy = "Gregorius Techneticies", mAttributes[];
     private int mTier = 0, mMaxSize = 0, mAfterHarvestSize = 0, mHarvestSize = 0, mStats[] = new int[5], mGrowthSpeed = 0;
     private ItemStack mDrop = null, mSpecialDrops[] = null;
@@ -235,7 +235,7 @@ public class GT_BaseCrop extends CropCard implements ICropCardInfo {
 
     public List<String> getCropInformation() {
         if (mBlock != null) {
-            ArrayList<String> result = new ArrayList<String>(1);
+            List<String> result = new FastList<String>(1);
             result.add(String.format("Requires %s Ore or Block of %s as soil block to reach full growth.", mBlock.mName, mBlock.mName));
             return result;
         }

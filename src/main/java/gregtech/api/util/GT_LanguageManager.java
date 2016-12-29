@@ -14,7 +14,9 @@ import java.util.Map.Entry;
 import static gregtech.api.enums.GT_Values.E;
 
 public class GT_LanguageManager {
-    public static final HashMap<String, String> TEMPMAP = new HashMap<String, String>(), BUFFERMAP = new HashMap<String, String>(), LANGMAP = new HashMap<String, String>();
+    public static final HashMap<String, String> TEMPMAP = new HashMap<String, String>(1);
+    public static final HashMap<String, String> LANGMAP = new HashMap<String, String>();
+    public static final HashMap<String, String> BUFFERMAP = new HashMap<String, String>();
     public static Configuration sEnglishFile;
     public static boolean sUseEnglishFile = false;
 
@@ -24,9 +26,10 @@ public class GT_LanguageManager {
 
     public static String addStringLocalization(String aKey, String aEnglish, boolean aWriteIntoLangFile) {
         if (aKey == null) return E;
-        if (aWriteIntoLangFile){ aEnglish = writeToLangFile(aKey, aEnglish);
-        if(!LANGMAP.containsKey(aKey)){
-        	LANGMAP.put(aKey, aEnglish);
+        if (aWriteIntoLangFile){
+            aEnglish = writeToLangFile(aKey, aEnglish);
+            if(!LANGMAP.containsKey(aKey)){
+        	    LANGMAP.put(aKey, aEnglish);
         	}
         }
         TEMPMAP.put(aKey.trim(), aEnglish);
@@ -103,5 +106,14 @@ public class GT_LanguageManager {
             }
         }
         return aStack.getUnlocalizedName() + ".name";
+    }
+
+    public static void cleanupObjects() {
+        //crutches for allegedly cleaning
+        //NPE, strange, not all object reg localize name? wut?
+        // okay, reset size from time to time
+        //TEMPMAP = new SoftReference(new HashMap<String, String>(1));
+        //BUFFERMAP = new SoftReference(new org.eclipse.collections.impl.map.mutable.UnifiedMap<String, String>());
+        //sEnglishFile = null;
     }
 }

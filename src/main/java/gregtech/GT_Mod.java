@@ -455,8 +455,7 @@ public class GT_Mod implements IGT_Mod {
                 List<ModContainer> tModList = tLoadController.getActiveModList();
                 List<ModContainer> tNewModsList = new ArrayList();
                 ModContainer tGregTech = null;
-                short tModList_sS= (short) tModList.size();
-                for (short i = 0; i < tModList_sS; i = (short) (i + 1)) {
+                for (short i = 0; i < (short) tModList.size(); i = (short) (i + 1)) {
                     ModContainer tMod = (ModContainer) tModList.get(i);
                     if (tMod.getModId().equalsIgnoreCase("gregtech")) {
                         tGregTech = tMod;
@@ -559,10 +558,11 @@ public class GT_Mod implements IGT_Mod {
         FMLLog.info("If your Log stops here, you were too impatient. Wait a bit more next time, before killing Minecraft with the Task Manager.", new Object[0]);
         gregtechproxy.activateOreDictHandler();
         FMLLog.info("Congratulations, you have been waiting long enough. Have a Cake.", new Object[0]);
-        GT_Log.out.println("GT_Mod: List of Lists of Tool Recipes: "+GT_ModHandler.sSingleNonBlockDamagableRecipeList_list.toString());
-        GT_Log.out.println("GT_Mod: Vanilla Recipe List -> Outputs null or stackSize <=0: " + GT_ModHandler.sVanillaRecipeList_warntOutput.toString());
-        GT_Log.out.println("GT_Mod: Single Non Block Damagable Recipe List -> Outputs null or stackSize <=0: " + GT_ModHandler.sSingleNonBlockDamagableRecipeList_warntOutput.toString());
-        //GT_Log.out.println("GT_Mod: sRodMaterialList cycles: " + GT_RecipeRegistrator.sRodMaterialList_cycles);
+        GT_Log.out.println("GT_Mod: List of Lists of Tool Recipes: "+GT_ModHandler.sSingleNonBlockDamagableRecipeList_list.get().toString());
+        GT_Log.out.println("GT_Mod: Vanilla Recipe List -> Outputs null or stackSize <=0: " + GT_ModHandler.sVanillaRecipeList_warntOutput.makeString());
+        GT_Log.out.println("GT_Mod: Single Non Block Damagable Recipe List -> Outputs null or stackSize <=0: " + GT_ModHandler.sSingleNonBlockDamagableRecipeList_warntOutput.makeString());
+        GT_Log.out.println("GT_Mod: sRodMaterialList cycles (work): " + GT_RecipeRegistrator.sRodMaterialList_cycles);
+        GT_Log.out.println("GT_Mod: sRodMaterialList cycles (no work): " + GT_RecipeRegistrator.sRodMaterialList_cycles1);
         if (GT_Values.D1) {
             IRecipe tRecipe;
             for (Iterator i$ = GT_ModHandler.sSingleNonBlockDamagableRecipeList.iterator(); i$.hasNext(); GT_Log.out.println("=> " + tRecipe.getRecipeOutput().getDisplayName())) {
@@ -801,6 +801,7 @@ public class GT_Mod implements IGT_Mod {
         GregTech_API.sAfterGTLoad = null;
         GregTech_API.sBeforeGTPostload = null;
         GregTech_API.sAfterGTPostload = null;
+        GT_ModHandler.cleanupObjects();GT_RecipeRegistrator.cleanupObjects();GT_LanguageManager.cleanupObjects();
     }
 
     @Mod.EventHandler

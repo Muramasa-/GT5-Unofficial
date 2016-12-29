@@ -2,8 +2,8 @@ package gregtech.api.world;
 
 import gregtech.api.GregTech_API;
 import net.minecraft.block.Block;
+import org.eclipse.collections.impl.list.mutable.FastList;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 public abstract class GT_Worldgen_Ore extends GT_Worldgen {
@@ -23,7 +23,7 @@ public abstract class GT_Worldgen_Ore extends GT_Worldgen {
         mSize = GregTech_API.sWorldgenFile.get(aTextWorldgen + mWorldGenName, "Size", aSize);
         mMinY = GregTech_API.sWorldgenFile.get(aTextWorldgen + mWorldGenName, "MinHeight", aMinY);
         mMaxY = GregTech_API.sWorldgenFile.get(aTextWorldgen + mWorldGenName, "MaxHeight", aMaxY);
-        if (aBiomeList == null) mBiomeList = new ArrayList<String>();
+        if (aBiomeList == null) mBiomeList = new FastList<String>();
         else mBiomeList = aBiomeList;
         mAllowToGenerateinVoid = aAllowToGenerateinVoid;
     }

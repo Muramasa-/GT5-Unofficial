@@ -1,10 +1,6 @@
 package gregtech.common;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.IFuelHandler;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.ModContainer;
-import cpw.mods.fml.common.ProgressManager;
+import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
@@ -29,12 +25,8 @@ import gregtech.api.objects.MaterialStack;
 import gregtech.api.util.*;
 import gregtech.common.entities.GT_Entity_Arrow;
 import gregtech.common.items.GT_MetaGenerated_Tool_01;
-import gregtech.common.items.armor.*;
-import gregtech.common.items.armor.gui.ContainerBasicArmor;
-import gregtech.common.items.armor.gui.ContainerElectricArmor1;
-import gregtech.common.items.armor.gui.GuiElectricArmor1;
-import gregtech.common.items.armor.gui.GuiModularArmor;
-import gregtech.common.items.armor.gui.InventoryArmor;
+import gregtech.common.items.armor.ModularArmor_Item;
+import gregtech.common.items.armor.gui.*;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -76,6 +68,9 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.RecipeSorter;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import org.eclipse.collections.impl.list.mutable.FastList;
+import org.eclipse.collections.impl.list.mutable.primitive.IntArrayList;
+import org.eclipse.collections.impl.set.mutable.UnifiedSet;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -86,12 +81,12 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
             new OreGenEvent.GenerateMinable.EventType[]{OreGenEvent.GenerateMinable.EventType.IRON, OreGenEvent.GenerateMinable.EventType.GOLD,
                     OreGenEvent.GenerateMinable.EventType.DIAMOND, OreGenEvent.GenerateMinable.EventType.REDSTONE, OreGenEvent.GenerateMinable.EventType.LAPIS,
                     OreGenEvent.GenerateMinable.EventType.QUARTZ});
-    public final HashSet<ItemStack> mRegisteredOres = new HashSet<ItemStack>(10000);
-    public final ArrayList<String> mSoundNames = new ArrayList<String>();
-    public final ArrayList<ItemStack> mSoundItems = new ArrayList<ItemStack>();
-    public final ArrayList<Integer> mSoundCounts = new ArrayList<Integer>();
-    private final Collection<OreDictEventContainer> mEvents = new HashSet<OreDictEventContainer>();
-    private final Collection<String> mIgnoredItems = new HashSet<String>(Arrays.asList(new String[]{"itemGhastTear", "itemFlint", "itemClay", "itemBucketSaltWater",
+    public final Set<ItemStack> mRegisteredOres = new UnifiedSet<ItemStack>(10000);
+    public final List<String> mSoundNames = new FastList<String>();
+    public final List<ItemStack> mSoundItems = new FastList<ItemStack>();
+    public final IntArrayList mSoundCounts = new IntArrayList();
+    private final Collection<OreDictEventContainer> mEvents = new UnifiedSet<OreDictEventContainer>();
+    private final Collection<String> mIgnoredItems = new UnifiedSet<String>(Arrays.asList(new String[]{"itemGhastTear", "itemFlint", "itemClay", "itemBucketSaltWater",
             "itemBucketFreshWater", "itemBucketWater", "itemRock", "itemReed", "itemArrow", "itemSaw", "itemKnife", "itemHammer", "itemChisel", "itemRubber",
             "itemEssence", "itemIlluminatedPanel", "itemSkull", "itemRawRubber", "itemBacon", "itemJetpackAccelerator", "itemLazurite", "itemIridium",
             "itemTear", "itemClaw", "itemFertilizer", "itemTar", "itemSlimeball", "itemCoke", "itemBeeswax", "itemBeeQueen", "itemForcicium", "itemForcillium",
@@ -102,7 +97,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
             "itemWhippingCream", "itemGlisteningWhippingCream", "itemCleaver", "itemHerbalMedicineWhippingCream", "itemStrangeWhippingCream",
             "itemBlazeCleaver", "itemBakedCakeSponge", "itemMagmaCake", "itemGlisteningCake", "itemOgreCleaver", "itemFishandPumpkinCake",
             "itemMagmaWhippingCream", "itemMultimeter", "itemSuperconductor"}));
-    private final Collection<String> mIgnoredNames = new HashSet<String>(Arrays.asList(new String[]{"grubBee", "chainLink", "candyCane", "bRedString", "bVial",
+    private final Collection<String> mIgnoredNames = new UnifiedSet<String>(Arrays.asList(new String[]{"grubBee", "chainLink", "candyCane", "bRedString", "bVial",
             "bFlask", "anorthositeSmooth", "migmatiteSmooth", "slateSmooth", "travertineSmooth", "limestoneSmooth", "orthogneissSmooth", "marbleSmooth",
             "honeyDrop", "lumpClay", "honeyEqualssugar", "flourEqualswheat", "bluestoneInsulated", "blockWaterstone", "blockSand", "blockTorch",
             "blockPumpkin", "blockClothRock", "blockStainedHardenedClay", "blockQuartzPillar", "blockQuartzChiselled", "blockSpawner", "blockCloth", "mobHead",
@@ -120,7 +115,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
             "antiBlock", "burntQuartz", "salmonRaw", "blockHopper", "blockEnderObsidian", "blockIcestone", "blockMagicWood", "blockEnderCore", "blockHeeEndium",
             "oreHeeEndPowder", "oreHeeStardust", "oreHeeIgneousRock", "oreHeeInstabilityOrb", "crystalPureFluix", "shardNether", "gemFluorite",
             "stickObsidian", "caveCrystal", "shardCrystal", "dyeCrystal","shardFire","shardWater","shardAir","shardEarth","ingotRefinedIron","blockMarble","ingotUnstable"}));
-    private final Collection<String> mInvalidNames = new HashSet<String>(Arrays.asList(new String[]{"diamondShard", "redstoneRoot", "obsidianStick", "bloodstoneOre",
+    private final Collection<String> mInvalidNames = new UnifiedSet<String>(Arrays.asList(new String[]{"diamondShard", "redstoneRoot", "obsidianStick", "bloodstoneOre",
             "universalCable", "bronzeTube", "ironTube", "netherTube", "obbyTube", "infiniteBattery", "eliteBattery", "advancedBattery", "10kEUStore",
             "blueDye", "MonazitOre", "quartzCrystal", "whiteLuminiteCrystal", "darkStoneIngot", "invisiumIngot", "demoniteOrb", "enderGem", "starconiumGem",
             "osmoniumIngot", "tapaziteGem", "zectiumIngot", "foolsRubyGem", "rubyGem", "meteoriteGem", "adamiteShard", "sapphireGem", "copperIngot",
@@ -134,7 +129,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
             "arditeRod", "manyullynRod", "bronzeRod", "boneRod", "slimeRod", "redalloyBundled", "bluestoneBundled", "infusedteslatiteInsulated",
             "redalloyInsulated", "infusedteslatiteBundled"}));
     private final DateFormat mDateFormat = DateFormat.getInstance();
-    public ArrayList<String> mBufferedPlayerActivity = new ArrayList();
+    public List<String> mBufferedPlayerActivity = new FastList<>();
     public boolean mHardcoreCables = false;
     public boolean mDisableVanillaOres = true;
     public boolean mNerfDustCrafting = true;
@@ -583,15 +578,16 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
         GT_Log.out.println("GT_Mod: Cleaning up all OreDict Crafting Recipes, which have an empty List in them, since they are never meeting any Condition.");
         List tList = CraftingManager.getInstance().getRecipeList();
         for (int i = 0; i < tList.size(); i++) {
-            if ((tList.get(i) instanceof ShapedOreRecipe)) {
-                for (Object tObject : ((ShapedOreRecipe) tList.get(i)).getInput()) {
+            Object tRecipe = tList.get(i);
+            if ((tRecipe instanceof ShapedOreRecipe)) {
+                for (Object tObject : ((ShapedOreRecipe) tRecipe).getInput()) {
                     if (((tObject instanceof List)) && (((List) tObject).isEmpty())) {
                         tList.remove(i--);
                         break;
                     }
                 }
-            } else if ((tList.get(i) instanceof ShapelessOreRecipe)) {
-                for (Object tObject : ((ShapelessOreRecipe) tList.get(i)).getInput()) {
+            } else if ((tRecipe instanceof ShapelessOreRecipe)) {
+                for (Object tObject : ((ShapelessOreRecipe) tRecipe).getInput()) {
                     if (((tObject instanceof List)) && (((List) tObject).isEmpty())) {
                         tList.remove(i--);
                         break;
