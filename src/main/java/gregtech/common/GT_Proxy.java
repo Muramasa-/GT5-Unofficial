@@ -203,12 +203,15 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
             onFluidContainerRegistration(new FluidContainerRegistry.FluidContainerRegisterEvent(tData));
         }
         try {
+            long before = System.nanoTime();
             for (String tOreName : OreDictionary.getOreNames()) {
                 ItemStack tOreStack;
                 for (Iterator i$ = OreDictionary.getOres(tOreName).iterator(); i$.hasNext(); registerOre(new OreDictionary.OreRegisterEvent(tOreName, tOreStack))) {
                     tOreStack = (ItemStack) i$.next();
                 }
             }
+            long after = System.nanoTime();
+            System.out.println("#### registerOre: " + (after - before) / 1000000000.0 + "s");
         } catch (Throwable e) {e.printStackTrace(GT_Log.err);}
     }
 
@@ -1615,6 +1618,7 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
     }
 
     public void registerUnificationEntries() {
+        long before = System.nanoTime();
         GregTech_API.sUnification.mConfig.save();
         GregTech_API.sUnification.mConfig.load();
         GT_OreDictUnificator.resetUnificationEntries();
@@ -1680,8 +1684,11 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
         GregTech_API.sUnificationEntriesRegistered = true;
         GregTech_API.sUnification.mConfig.save();
         GT_Recipe.reInit();
+        long after = System.nanoTime();
+        System.out.println("#### registerUnificationEntries: " + (after - before) / 1000000000.0 + "s");
     }
 
+    //int totalTime = 0;
     public void activateOreDictHandler() {
         this.mOreDictActivated = true;
         ProgressManager.ProgressBar progressBar = ProgressManager.push("Register materials", mEvents.size());
@@ -1689,8 +1696,10 @@ public abstract class GT_Proxy implements IGT_Mod, IGuiHandler, IFuelHandler {
         for (Iterator i$ = this.mEvents.iterator(); i$.hasNext(); registerRecipes(tEvent)) {
             tEvent = (OreDictEventContainer) i$.next();
             
-            progressBar.step(tEvent.mMaterial == null ? "" : tEvent.mMaterial.toString());
+            progressBar.step((tEvent.mMaterial == null ? "" : tEvent.mMaterial.toString()));
+            //totalTime
         }
+        //System.out.println("#### activateOreDictHandler: " + OrePrefixes.totalTime / 1000000000.0 + "s");
         ProgressManager.pop(progressBar);
     }
 
