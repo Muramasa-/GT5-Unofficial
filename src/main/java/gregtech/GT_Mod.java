@@ -410,6 +410,7 @@ public class GT_Mod implements IGT_Mod {
         new GT_Loader_OreProcessing().run();
         new GT_Loader_OreDictionary().run();
         new GT_Loader_ItemData().run();
+        new GT_Worldgenloader().run();
         new GT_Loader_Item_Block_And_Fluid().run();
         new GT_Loader_MetaTileEntities().run();
 
@@ -540,7 +541,7 @@ public class GT_Mod implements IGT_Mod {
         new GT_MachineRecipeLoader().run();
         new GT_ScrapboxDropLoader().run();
         new GT_CropLoader().run();
-        new GT_Worldgenloader().run();
+        //new GT_Worldgenloader().run();
         new GT_CoverLoader().run();
         LoadArmorComponents.init();
 

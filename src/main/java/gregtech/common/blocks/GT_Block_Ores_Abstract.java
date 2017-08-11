@@ -53,7 +53,7 @@ public abstract class GT_Block_Ores_Abstract extends GT_Generic_Block implements
             GT_ModHandler.addValuableOre(this, i, 1);
         }
         for (int i = 1; i < GregTech_API.sGeneratedMaterials.length; i++) {
-            if (GregTech_API.sGeneratedMaterials[i] != null) {
+            if (GregTech_API.sGeneratedMaterials[i] != null && shouldRegisterOre((short)aOreMetaCount)) {
                 for (int j = 0; j < aOreMetaCount; j++) {
                     GT_LanguageManager.addStringLocalization(getUnlocalizedName() + "." + (i + (j * 1000)) + aTextName, getLocalizedName(GregTech_API.sGeneratedMaterials[i]));
                     GT_LanguageManager.addStringLocalization(getUnlocalizedName() + "." + ((i + 16000) + (j * 1000)) + aTextName, aTextSmall + getLocalizedName(GregTech_API.sGeneratedMaterials[i]));
@@ -226,6 +226,8 @@ public abstract class GT_Block_Ores_Abstract extends GT_Generic_Block implements
     public abstract Block getDroppedBlock();
 
     public abstract Materials[] getDroppedDusts(); //Must have 8 entries; can be null.
+
+    public abstract boolean shouldRegisterOre(short aMeta);
 
     public ArrayList<ItemStack> getDrops(World aWorld, int aX, int aY, int aZ, int aMeta, int aFortune) {
         TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);

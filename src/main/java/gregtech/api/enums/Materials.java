@@ -1280,6 +1280,9 @@ public class Materials implements IColorModulationContainer, ISubTagContainer {
             aRegistrator.onMaterialsInit(); //This is where addon mods can add/manipulate materials
         }
         initMaterialProperties(); //No more material addition or manipulation should be done past this point!
+        List<Materials> aDisableList = new ArrayList<>();
+        for (Materials aMat : MATERIALS_MAP.values()) if (!aMat.mHasParentMod) aDisableList.add(aMat);
+        for (Materials aMat : aDisableList) MATERIALS_MAP.remove(aMat.mName);
         MATERIALS_ARRAY = MATERIALS_MAP.values().toArray(new Materials[MATERIALS_MAP.size()]); //Generate standard object array. This is a lot faster to loop over.
         VALUES = Arrays.asList(MATERIALS_ARRAY);
         if (!GT_Mod.gregtechproxy.mEnableAllComponents) OrePrefixes.initMaterialComponents();

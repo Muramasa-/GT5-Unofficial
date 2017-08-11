@@ -17,6 +17,12 @@ import java.util.Random;
 public class GT_Worldgen_GT_Ore_Layer
         extends GT_Worldgen {
     public static ArrayList<GT_Worldgen_GT_Ore_Layer> sList = new ArrayList();
+    public static ArrayList<Short> sOverworldOres = new ArrayList<>();
+    public static ArrayList<Short> sNetherOres = new ArrayList<>();
+    public static ArrayList<Short> sEndOres = new ArrayList<>();
+    public static ArrayList<Short> sMoonOres = new ArrayList<>();
+    public static ArrayList<Short> sMarsOres = new ArrayList<>();
+    public static ArrayList<Short> sAsteroidOres = new ArrayList<>();
     public static int sWeight = 0;
     public final short mMinY;
     public final short mMaxY;
@@ -61,6 +67,13 @@ public class GT_Worldgen_GT_Ore_Layer
         //if (mSecondaryMeta != -1 && GregTech_API.sGeneratedMaterials[(mSecondaryMeta % 1000)] == null) throw new IllegalArgumentException("A Material for the supplied ID " + mSecondaryMeta + " for " + mWorldGenName + " does not exist");
         //if (mBetweenMeta != -1 && GregTech_API.sGeneratedMaterials[(mBetweenMeta % 1000)] == null) throw new IllegalArgumentException("A Material for the supplied ID " + mBetweenMeta + " for " + mWorldGenName + " does not exist");
         //if (mPrimaryMeta != -1 && GregTech_API.sGeneratedMaterials[(mSporadicMeta % 1000)] == null) throw new IllegalArgumentException("A Material for the supplied ID " + mSporadicMeta + " for " + mWorldGenName + " does not exist");
+
+        if (mOverworld) sOverworldOres.add(mPrimaryMeta); sOverworldOres.add(mSecondaryMeta); sOverworldOres.add(mBetweenMeta); sOverworldOres.add(mSporadicMeta);
+        if (mNether) sNetherOres.add(mPrimaryMeta); sNetherOres.add(mSecondaryMeta); sNetherOres.add(mBetweenMeta); sNetherOres.add(mSporadicMeta);
+        if (mEnd) sEndOres.add(mPrimaryMeta); sEndOres.add(mSecondaryMeta); sEndOres.add(mBetweenMeta); sEndOres.add(mSporadicMeta);
+        if (mMoon) sMoonOres.add(mPrimaryMeta); sMoonOres.add(mSecondaryMeta); sMoonOres.add(mBetweenMeta); sMoonOres.add(mSporadicMeta);
+        if (mMars) sMarsOres.add(mPrimaryMeta); sMarsOres.add(mSecondaryMeta); sMarsOres.add(mBetweenMeta); sMarsOres.add(mSporadicMeta);
+        if (mAsteroid) sAsteroidOres.add(mPrimaryMeta); sAsteroidOres.add(mSecondaryMeta); sAsteroidOres.add(mBetweenMeta); sAsteroidOres.add(mSporadicMeta);
 
         if (this.mEnabled) {
             GT_Achievements.registerOre(GregTech_API.sGeneratedMaterials[(mPrimaryMeta % 1000)], aMinY, aMaxY, aWeight, aOverworld, aNether, aEnd);

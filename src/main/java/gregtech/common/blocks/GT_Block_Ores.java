@@ -7,6 +7,7 @@ import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.objects.GT_CopiedBlockTexture;
 import gregtech.api.objects.GT_RenderedTexture;
+import gregtech.common.GT_Worldgen_GT_Ore_Layer;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -24,6 +25,24 @@ public class GT_Block_Ores extends GT_Block_Ores_Abstract {
     @Override
     public OrePrefixes[] getProcessingPrefix() { //Must have 8 entries; an entry can be null to disable automatic recipes.
         return new OrePrefixes[]{OrePrefixes.ore, OrePrefixes.oreNetherrack, OrePrefixes.oreEndstone, OrePrefixes.oreBlackgranite, OrePrefixes.oreRedgranite, OrePrefixes.oreMarble, OrePrefixes.oreBasalt, null};
+    }
+
+    @Override
+    public boolean shouldRegisterOre(short aMeta) {
+        switch (aMeta) {
+            case 0:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+                return GT_Worldgen_GT_Ore_Layer.sOverworldOres.contains(aMeta);
+            case 1:
+                return GT_Worldgen_GT_Ore_Layer.sNetherOres.contains(aMeta);
+            case 2:
+                return GT_Worldgen_GT_Ore_Layer.sEndOres.contains(aMeta);
+            default: return false;
+        }
     }
 
     @Override
